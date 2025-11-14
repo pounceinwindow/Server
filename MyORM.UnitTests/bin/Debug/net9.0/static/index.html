@@ -1,0 +1,16 @@
+﻿<!doctype html>
+<html lang="ru">
+<meta charset="utf-8">
+<title>Users</title>
+
+$if(Users.All)
+$foreach(var user in Users.All)
+<p>$(user.Id)</p>
+<p>$(user.Name)</p>
+<p>$(user.Email)</p>
+<hr>
+$endfor
+$else
+<p>Нет пользователей.</p>
+$endif
+</html>

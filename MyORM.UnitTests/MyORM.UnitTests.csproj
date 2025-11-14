@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net9.0</TargetFramework>
+        <LangVersion>latest</LangVersion>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.12.0"/>
+        <PackageReference Include="MSTest" Version="3.6.4"/>
+        <PackageReference Include="NUnit3TestAdapter" Version="6.0.0-beta.1"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Using Include="Microsoft.VisualStudio.TestTools.UnitTesting"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\HttpServer.Framework\HttpServer.Framework.csproj"/>
+        <ProjectReference Include="..\HttpServer\HttpServer.csproj"/>
+        <ProjectReference Include="..\MiniTemplateEngine.UnitTests\MiniTemplateEngine.UnitTests.csproj"/>
+        <ProjectReference Include="..\MiniTemplateEngine\MiniTemplateEngine.csproj"/>
+        <ProjectReference Include="..\MyORM\MyORM.csproj"/>
+    </ItemGroup>
+
+</Project>

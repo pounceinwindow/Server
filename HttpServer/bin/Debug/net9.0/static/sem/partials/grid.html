@@ -1,0 +1,29 @@
+﻿<div class="grid" data-total="${root.Total}">
+    $foreach(var e in root.Items)
+    <article class="card" data-slug="${e.Slug}">
+        <a aria-label="${e.Title}" class="stretched" href="/product?slug=${e.Slug}"></a>
+        <div class="media">
+            <img alt="${e.Title}" loading="lazy" src="${e.HeroUrl}">
+            <span class="pill">${e.CategoryName}</span>
+        </div>
+        <div class="body">
+            <div class="title">${e.Title}</div>
+            <p class="desc">${e.Description}</p>
+            <div class="meta">
+                ⭐ ${e.Rating}/5 (${e.ReviewsCount}) · 📱 Mobile ticket
+            </div>
+            <div class="meta">
+                $if(e.FreeCancellation)<span class="ok">Free cancellation</span>$endif
+                Available in: En
+            </div>
+        </div>
+        <div class="foot">
+            <div class="from">from: <span class="price">$${e.PriceFrom}</span></div>
+        </div>
+    </article>
+    $endfor
+
+    $if(root.Total == 0)
+    <div class="empty">Nothing found. Try changing filters.</div>
+    $endif
+</div>

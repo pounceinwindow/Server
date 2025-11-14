@@ -1,0 +1,52 @@
+﻿<!doctype html><html lang="ru"><head>
+    <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Админка</title>
+    <link rel="stylesheet" href="/styles.css">
+    <style>
+        .admin{max-width:1200px;margin:24px auto;padding:16px}
+        form.inline{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
+        table{width:100%;border-collapse:collapse;margin-top:12px}
+        th,td{border:1px solid #e5e7eb;padding:8px;text-align:left}
+        .right{text-align:right}
+    </style>
+</head><body>
+<div class="admin">
+    <h1>Админка</h1>
+    <p><a href="/admin/logout">Выйти</a></p>
+
+    <h2>Добавить тур</h2>
+    <form class="inline" method="post" action="/admin/tours/create" data-validate>
+        <input name="title" placeholder="Название" required>
+        <input name="city" placeholder="Город" required>
+        <input name="category" placeholder="Категория" value="ACTIVITIES">
+        <input name="price" type="number" step="1" placeholder="Цена от" required>
+        <input name="description" placeholder="Описание" data-limit="300">
+        <input name="hero_url" placeholder="ссылка на картинку" data-limit="300">
+        
+        <button type="submit">Создать</button>
+    </form>
+
+    <h2 style="margin-top:20px">Список туров</h2>
+    <table>
+        <thead><tr><th>ID</th><th>Slug</th><th>Название</th><th>Город</th><th>Категория</th><th class="right">Цена</th><th></th></tr></thead>
+        <tbody>
+        $foreach(var t in root.Items)
+        <tr>
+            <td>${t.Id}</td>
+            <td>${t.Slug}</td>
+            <td>${t.Title}</td>
+            <td>${t.City}</td>
+            <td>${t.CategoryName}</td>
+            <td class="right">$${t.PriceFrom}</td>
+            <td>
+                <form method="post" action="/admin/tours/delete" onsubmit="return confirm('Удалить?')">
+                    <input type="hidden" name="id" value="${t.Id}">
+                    <button type="submit">Удалить</button>
+                </form>
+            </td>
+        </tr>
+        $endfor
+        </tbody>
+    </table>
+</div>
+</body></html>

@@ -1,0 +1,35 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net9.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\MiniTemplateEngine\MiniTemplateEngine.csproj"/>
+        <ProjectReference Include="..\MyORM\MyORM.csproj"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Compile Update="core\HttpResponse\BaseEndpoint.cs">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Compile>
+        <Compile Update="core\HttpResponse\IResponseResult.cs">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Compile>
+        <Compile Update="core\HttpResponse\PageResult.cs">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Compile>
+        <Compile Update="Settings\SettingsManager.cs">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Compile>
+        <Compile Update="Settings\SettingsModel.cs">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Compile>
+        <Compile Update="Settings\UserModel.cs">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Compile>
+    </ItemGroup>
+
+</Project>

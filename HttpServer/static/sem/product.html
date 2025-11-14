@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>${root.Details.Title}</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <link href="/styles.css" rel="stylesheet">
+    <link href="/product.css" rel="stylesheet">
+</head>
+<body class="product-page">
+
+<!-- HEADER будет подгружен твоим скриптом -->
+<div data-include="header"></div>
+
+
+
+<!-- HERO -->
+<div class="hero">
+    <div class="hero-frame">
+        $if(root.Details.Hero)
+        <img alt="${root.Details.Title}" src="${root.Details.Hero}">
+        $else
+        <img alt="${root.Details.Title}" src="/sem/img/hero-placeholder.jpg">
+        $endif
+        <button class="photos-btn">View all photos</button>
+    </div>
+</div>
+<div class="container">
+    <!-- BREADCRUMBS -->
+    <nav class="breadcrumbs">
+        <a href="/">Home</a>
+        <span class="sep">/</span>
+        <a href="/tours">Tours</a>
+        <span class="sep">/</span>
+        <a href="/tours?city=${root.Details.City}">${root.Details.City}</a>
+        <span class="sep">/</span>
+        <span>${root.Details.Category}</span>
+    </nav>
+</div>
+
+<div class="container">
+    <div class="grid">
+
+        <!-- LEFT COLUMN -->
+        <main>
+
+            <div class="category-pill">${root.Details.Category}</div>
+
+            <h1 class="title">${root.Details.Title}</h1>
+
+            <!-- Rating -->
+            <div class="rating">
+                <div class="badge">
+                    ${root.Details.Rating}
+                </div>
+                <div id="score-text">${root.Details.RatingText}</div>
+                <a href="#reviews">Based on ${root.Details.Reviews} reviews</a>
+            </div>
+
+            <!-- Meta -->
+            <div class="meta">
+                <div class="meta-item">
+                    <span>⏱</span>
+                    <div>
+                        <div><b>Duration</b></div>
+                        <div>${root.Details.Duration}</div>
+                    </div>
+                </div>
+                <div class="meta-item">
+                    <span>🎧</span>
+                    <div>
+                        <div><b>Language</b></div>
+                        <div>${root.Details.Languages}</div>
+                    </div>
+                </div>
+                <div class="meta-item">
+                    <span>📱</span>
+                    <div>
+                        <div><b>Mobile voucher</b></div>
+                        <div>Instant confirmation</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chips -->
+            <div class="chips">
+                $foreach(var chip in root.Details.Chips)
+                <div class="chip">
+                    <span>✔</span>
+                    <span>${chip}</span>
+                </div>
+                $endfor
+            </div>
+
+            <!-- Why you'll love this -->
+            <section>
+                <h2>Why you’ll love this</h2>
+                <ul class="list">
+                    $foreach(var it in root.Details.Love)
+                    <li>${it}</li>
+                    $endfor
+                </ul>
+            </section>
+
+            <!-- What to expect -->
+            $if(root.Details.DescriptionHtml)
+            <section class="expect">
+                <h2>What to expect</h2>
+                <div class="read-more faded" id="desc-box">
+                    ${root.Details.DescriptionHtml}
+                </div>
+            </section>
+            $endif
+
+            <!-- Included -->
+            <section>
+                <h2>What’s included</h2>
+                <ul class="list included">
+                    $foreach(var inc in root.Details.Included)
+                    <li>${inc}</li>
+                    $endfor
+                </ul>
+            </section>
+
+            <!-- Remember -->
+            <section>
+                <h2>What to remember</h2>
+                <ul class="list">
+                    $foreach(var r in root.Details.Remember)
+                    <li>${r}</li>
+                    $endfor
+                </ul>
+            </section>
+
+            <!-- Meeting point -->
+            $if(root.Details.Meeting)
+            <section>
+                <h2>Meeting point</h2>
+                <p>${root.Details.Meeting}</p>
+                $if(root.Details.Address)
+                <p>${root.Details.Address}</p>
+                $endif
+            </section>
+            $else
+            $if(root.Details.Address)
+            <section>
+                <h2>Meeting point</h2>
+                <p>${root.Details.Address}</p>
+            </section>
+            $endif
+            $endif
+            <section>
+                <h2>Meeting point</h2>
+                $if(root.Details.Meeting)
+                <p>${root.Details.Meeting}</p>
+                $endif
+                $if(root.Details.Address)
+                <p>${root.Details.Address}</p>
+                $endif
+
+            </section>
+            $endif
+
+            <!-- Cancellation policy -->
+            $if(root.Details.CancelPolicy)
+            <section>
+                <h2>Cancellation policy</h2>
+                <p>${root.Details.CancelPolicy}</p>
+            </section>
+            $endif
+
+            <!-- Reviews -->
+            <section id="reviews">
+                <h2>Reviews</h2>
+                <div class="reviews-grid">
+                    <div>
+                        <div class="score-big">${root.Details.Rating}</div>
+                        <p class="muted">
+                            Based on <b>${root.Details.Reviews}</b> verified reviews
+                        </p>
+                        <div>
+                            <div>Excellent</div>
+                            <div class="bar"><span style="width: 86%"></span></div>
+                        </div>
+                        <div>
+                            <div>Very good</div>
+                            <div class="bar"><span style="width: 10%"></span></div>
+                        </div>
+                    </div>
+                    <div>
+                        $if(root.Reviews)
+                        $foreach(var rv in root.Reviews)
+                        <div class="book-row" style="border-top:none; padding:10px 0;">
+                            <div>
+                                <b>${rv.Author}</b>
+                                <div class="muted" style="font-size:12px;">
+                                    ${rv.CreatedAt.ToString("dd MMM yyyy")} • ${rv.Rating}/5
+                                </div>
+                                <p style="margin:4px 0 0; font-size:14px;">
+                                    ${rv.Comment}
+                                </p>
+                            </div>
+                        </div>
+                        $endfor
+                        $else
+                        <p class="muted">No reviews yet. Be the first to share your experience.</p>
+                        $endif
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <!-- RIGHT COLUMN -->
+        <aside class="book-card">
+            <h3>Book your ticket</h3>
+            <div class="best">
+                <span>★ Best choice</span>
+            </div>
+
+            <p class="muted">
+                From <b>${root.Details.Price}</b> per person
+            </p>
+
+            <div class="ticket-box">
+                <div class="ticket">Standard ticket</div>
+
+                <div class="book-row">
+                    <div>
+                        <div class="muted">Instant confirmation</div>
+                        <div class="muted">Mobile ticket accepted</div>
+                    </div>
+                    <div class="price-blue">
+                        ${root.Details.Price}
+                    </div>
+                </div>
+
+                <div class="book-row">
+                    <div class="muted">Select quantity</div>
+                    <div class="qty">
+                        <button id="minus" type="button">-</button>
+                        <span id="qty">1</span>
+                        <button id="plus" type="button">+</button>
+                    </div>
+                </div>
+
+                <div class="book-row total-row">
+                    <div class="muted">Total</div>
+                    <div class="total blue" id="total-price">
+                        ${root.Details.Price}
+                    </div>
+                </div>
+            </div>
+
+            <div class="cta">
+                <button id="check-btn" type="button">Check availability</button>
+                <button type="button">Book now</button>
+            </div>
+
+            <p class="muted" style="margin-top:10px; font-size:12px;">
+                Free cancellation according to the policy. No extra fees.
+            </p>
+        </aside>
+
+    </div>
+</div>
+
+<section class="more">
+    <div class="container">
+        <h2>You might also like</h2>
+        <div class="cards">
+            $foreach(var m in root.RelatedTours)
+            <a class="card" href="/product?slug=${m.Slug}">
+                <div class="img-wrap">
+                    $if(m.HeroUrl)
+                    <img alt="${m.Title}" src="${m.HeroUrl}">
+                    $else
+                    <img alt="${m.Title}" src="/sem/img/card-placeholder.jpg">
+                    $endif
+                    <div class="tag">${m.City}</div>
+                </div>
+                <div class="body">
+                    <div class="muted" style="font-size:12px;">${m.CategoryName}</div>
+                    <div><b>${m.Title}</b></div>
+                </div>
+                <div class="price">From ${m.PriceFrom}</div>
+            </a>
+            $endfor
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER будет подгружен твоим скриптом -->
+<div data-include="footer"></div>
+
+<!-- Твой общий JS -->
+<script defer src="/scripts.js"></script>
+
+
+</body>
+</html>

@@ -1,0 +1,6 @@
+﻿{
+  "StaticDirectoryPath": "static",
+  "Domain": "http://localhost",
+  "Port": "1234",
+  "ConnectionString": "Host=localhost;Port=5432;Database=music;Username=developer;Password=developer;Pooling=true"
+}

@@ -1,0 +1,29 @@
+﻿version: '3.8'
+
+services:
+  db:
+    image: postgres:16
+    container_name: httpserver_db
+    restart: always
+    environment:
+      POSTGRES_DB: oris
+      POSTGRES_USER: developer
+      POSTGRES_PASSWORD: developer
+    ports:
+      - "5432:5432"              # можно убрать наружу, если не нужно
+    volumes:
+      - db_data:/var/lib/postgresql/data
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: httpserver_app
+    depends_on:
+      - db
+    ports:
+      - "1234:1234"
+
+volumes:
+  db_data:

@@ -1,4 +1,4 @@
-﻿using HttpServer.Framework.core.Attributes;
+﻿﻿using HttpServer.Framework.core.Attributes;
 using System.Net;
 using HttpServer.Framework.Core.HttpResponse;
 using HttpServer.Framework.Settings;
@@ -28,6 +28,7 @@ public class ProductEndpoint : BaseEndpoint
             d => d.ExperienceId == exp.Id,
             "experience_details"
         );
+       
 
         if (details == null)
         {
@@ -39,7 +40,7 @@ public class ProductEndpoint : BaseEndpoint
                 Category = exp.CategoryName,
                 Price = exp.PriceFrom,
                 Rating = exp.Rating,
-                Reviews = exp.ReviewsCount
+                Reviews = exp.ReviewsCount,
             };
         }
 
@@ -62,6 +63,7 @@ public class ProductEndpoint : BaseEndpoint
             Details = details,
             Reviews = reviews,
             RelatedTours = related
+            
         };
         Console.WriteLine("DescriptionHtml: " + details.DescriptionHtml);
         return Page("sem/product.html", vm);

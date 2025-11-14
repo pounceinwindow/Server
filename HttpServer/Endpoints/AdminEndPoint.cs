@@ -39,11 +39,11 @@ public sealed class AdminEndPoint : BaseEndpoint
             var cat   = form.GetValueOrDefault("category","Activities").Trim();
             var priceText = form.GetValueOrDefault("price","0");
             var desc = form.GetValueOrDefault("description","").Trim();
-            var hero_url = form.GetValueOrDefault("hero_url","").Trim();
+            var hero = form.GetValueOrDefault("hero_url","").Trim();
             if (decimal.TryParse(priceText, NumberStyles.Any, CultureInfo.InvariantCulture, out var price)
                 && !string.IsNullOrWhiteSpace(title) && !string.IsNullOrWhiteSpace(city))
             {
-                new TourService().Create(title, city, cat, price, hero_url, desc);
+                new TourService().Create(title, city, cat, price, hero, desc);
             }
         }
         catch (Exception ex)

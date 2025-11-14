@@ -33,7 +33,8 @@ public sealed class TourService
             var det = new ExperienceDetails
             {
                 ExperienceId   = exp.Id,
-                DescriptionHtml = description
+                DescriptionHtml = description,
+                HeroUrl = hero_url
             };
             using var db = new OrmContext(cs);
             db.Create(det, "experience_details");

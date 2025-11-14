@@ -41,7 +41,7 @@ function initSinglePriceRange() {
 
     r.addEventListener('input', sync);
     sync();
-}ф
+}
 
 function paintRange(input) {
     const min = +input.min || 0;

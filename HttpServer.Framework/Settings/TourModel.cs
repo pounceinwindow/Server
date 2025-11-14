@@ -7,7 +7,6 @@ public class Experience
     public string Slug { get; set; } = null!;
     public string City { get; set; } = null!;
     public string Title { get; set; } = null!;
-    public string Description { get; set; } = "";
 
     public decimal PriceFrom { get; set; }
 
@@ -28,6 +27,7 @@ public class Experience
 
 public class ExperienceDetails
 {
+    public string HeroUrl { get; set; } = "";
     public int Id { get; set; }
     public int ExperienceId { get; set; }
     public string Category { get; set; } = "";
@@ -36,12 +36,10 @@ public class ExperienceDetails
 
 
     public decimal? Rating { get; set; }
-    public string RatingText { get; set; } = "Excellent";
     public int? Reviews { get; set; }
 
     public decimal Price { get; set; }
 
-    public DateTime? ValidUntil { get; set; }
 
     public string DescriptionHtml { get; set; } = "";
 
@@ -140,7 +138,6 @@ public class ListingViewModel
     public decimal MaxPrice { get; set; }
     public string PriceMinText { get; set; } = "";
     public string PriceMaxText { get; set; } = "";
-    public string RatingMinText { get; set; } = "";
 
     public bool Instant { get; set; }
     public bool Free { get; set; }
@@ -152,10 +149,8 @@ public class ListingViewModel
 
     public List<CategoryItem> Categories { get; set; } = new();
 
-    public List<string> SelectedCategories { get; set; } = new();
 
     public List<CategoryItem> TopCategories { get; set; } = new();  
-    public string ActiveCategory { get; set; } = "";
 
     public string Sort { get; set; } = "popularity";
 }

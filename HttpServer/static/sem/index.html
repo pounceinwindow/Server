@@ -142,6 +142,7 @@
                 $endfor
             </div>
 
+            <!-- head -->
             <div class="result-head">
                 <div><strong id="totalCount">${root.Total}</strong> Experiences</div>
                 <div class="sort" role="group" aria-label="Sort options">
@@ -175,6 +176,7 @@
                 </div>
             </div>
 
+            <!-- GRID (встроенный, без $include) -->
             <div id="gridContainer">
             <div class="grid" data-total="${root.Total}">
                 $foreach(var e in root.Items)
@@ -227,7 +229,20 @@
 
     <section class="section intro">
         <h2 style="font-size:22px;margin:0 0 8px 0">Introducing Tours</h2>
-        <p>…</p>
+        <p><p>Tours stands on the lower reaches of the River Loire, between Orléans and the Atlantic coast.
+        The surrounding district, the traditional province of Touraine, is known for its wines,
+        for the alleged perfection of its local spoken French, and for the Battle of Tours (732). Called "Le Jardin
+        de la France" ("The Garden of France"),
+        Tours is located between two rivers, the Loire to the north and the Cher to the south which make the city
+        quite green.…</p>
+        <p>Tours is famous also for its original medieval district, called <em>le Vieux Tours</em> with preserved
+            half-timbered buildings and <em>la Place Plumereau</em>, a square with busy pubs and restaurants, whose
+            open-air tables fill the centre of the square…</p>
+        <p>Near the cathedral of Tours, in the garden of the ancient Palais des Archevêques (now <em>Musée des
+            Beaux-Arts</em>), is a huge cedar tree planted by Napoleon. Funny fact, the garden also has in an alcove a
+            stuffed elephant,
+            Fritz. He escaped from the Barnum and Bailey circus during their stay in Tours in 1902.
+            He went mad and had to be shot down, but the city paid to honor him, and he was stuffed as a result.</p>
     </section>
 </main>
 
@@ -243,7 +258,9 @@
 
 <div data-include="footer"></div>
 
+<!-- базовый -->
 <script defer src="/scripts.js"></script>
+<!-- лёгкий ajax для фильтров/таба -->
 <script defer src="/list.js"></script>
 </body>
 </html>

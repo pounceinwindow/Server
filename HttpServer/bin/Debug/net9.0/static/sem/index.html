@@ -2,21 +2,20 @@
 <html lang="en">
 <head>
     <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta content="width=device-width, initial-scale=1" name="viewport"/>
     <title>Tickets, activities and visits in Tours — static clone</title>
-    <meta name="description" content="Tours listing page"/>
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <meta content="Tours listing page" name="description"/>
+    <link crossorigin href="https://fonts.gstatic.com" rel="preconnect">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
           rel="stylesheet">
-    <link rel="stylesheet" href="/styles.css">
+    <link href="/styles.css" rel="stylesheet">
 </head>
 <body>
 
 <div data-include="header"></div>
 
-<!-- HERO -->
 <section class="hero">
-    <img class="hero-bg" src="img/1.jpg" alt="" aria-hidden="true">
+    <img alt="" aria-hidden="true" class="hero-bg" src="img/1.jpg">
     <div class="hero-inner">
         <h1>Tickets, activities and visits in Tours</h1>
     </div>
@@ -26,58 +25,56 @@
     <div class="layout">
 
         <!-- FILTERS -->
-        <aside class="aside" aria-label="Filters">
-            <form id="filterForm" class="filters" method="get">
+        <aside aria-label="Filters" class="aside">
+            <form class="filters" id="filterForm" method="get">
 
                 <!-- PRICE -->
                 <div class="fg" id="priceFilter">
                     <div class="fh no-toggle" style="cursor:default;font-weight:500;">Price (per adult)</div>
 
-                    <div class="range2" aria-label="Price range">
-                        <div class="track" aria-hidden="true"></div>
-                        <div class="range-fill" aria-hidden="true"></div>
-                        <input id="priceMin" name="priceMin" type="range"
-                               min="${root.MinPrice}" max="${root.MaxPrice}" step="1"
+                    <div aria-label="Price range" class="range2">
+                        <div aria-hidden="true" class="track"></div>
+                        <div aria-hidden="true" class="range-fill"></div>
+                        <input id="priceMin" max="${root.MaxPrice}" min="${root.MinPrice}"
+                               name="priceMin" step="1" type="range"
                                value="${root.PriceMinText}">
-                        <input id="priceMax" name="priceMax" type="range"
-                               min="${root.MinPrice}" max="${root.MaxPrice}" step="1"
+                        <input id="priceMax" max="${root.MaxPrice}" min="${root.MinPrice}"
+                               name="priceMax" step="1" type="range"
                                value="${root.PriceMaxText}">
                     </div>
 
-                    <div class="mm" aria-hidden="true">
+                    <div aria-hidden="true" class="mm">
                         <div class="box"><span>Min:</span><strong id="minOut">$${root.PriceMinText}</strong></div>
                         <div class="box"><span>Max:</span><strong id="maxOut">$${root.PriceMaxText}</strong></div>
                     </div>
                 </div>
 
-                <!-- TICKETS -->
                 <div class="fg collapsed">
-                    <button class="fh" type="button" style="font-weight:500;">Tickets option</button>
+                    <button class="fh" style="font-weight:500;" type="button">Tickets option</button>
                     <div class="checks">
-                        <label class="check"><input type="checkbox" name="instant" value="1"
-                                                    $if(root.Instant)checked$endif> Instant confirmation</label>
-                        <label class="check"><input type="checkbox" name="free" value="1" $if(root.Free)checked$endif>
+                        <label class="check"><input $if(root.Instant)checked$endif name="instant" type="checkbox"
+                                                    value="1"> Instant confirmation</label>
+                        <label class="check"><input $if(root.Free)checked$endif name="free" type="checkbox" value="1">
                             Free cancellation</label>
-                        <label class="check"><input type="checkbox" name="guided" value="1"
-                                                    $if(root.Guided)checked$endif> Guided tour</label>
-                        <label class="check"><input type="checkbox" name="skip" value="1"
-                                                    $if(root.SkipLine)checked$endif> Skip the line</label>
-                        <label class="check"><input type="checkbox" name="fees" value="1"
-                                                    $if(root.EntranceFees)checked$endif> Entrance fees included</label>
-                        <label class="check"><input type="checkbox" name="private" value="1"
-                                                    $if(root.PrivateTour)checked$endif> Private Tour</label>
-                        <label class="check"><input type="checkbox" name="meal" value="1"
-                                                    $if(root.MealIncluded)checked$endif> Meal Included</label>
+                        <label class="check"><input $if(root.Guided)checked$endif name="guided" type="checkbox"
+                                                    value="1"> Guided tour</label>
+                        <label class="check"><input $if(root.SkipLine)checked$endif name="skip" type="checkbox"
+                                                    value="1"> Skip the line</label>
+                        <label class="check"><input $if(root.EntranceFees)checked$endif name="fees" type="checkbox"
+                                                    value="1"> Entrance fees included</label>
+                        <label class="check"><input $if(root.PrivateTour)checked$endif name="private" type="checkbox"
+                                                    value="1"> Private Tour</label>
+                        <label class="check"><input $if(root.MealIncluded)checked$endif name="meal" type="checkbox"
+                                                    value="1"> Meal Included</label>
                     </div>
                 </div>
 
-                <!-- CATEGORIES (в сайдбаре все доступные) -->
                 <div class="fg collapsed">
-                    <button class="fh" type="button" style="font-weight:500;">Categories</button>
+                    <button class="fh" style="font-weight:500;" type="button">Categories</button>
                     <div class="checks">
                         $foreach(var c in root.Categories)
                         <label class="check">
-                            <input type="checkbox" name="category" value="${c.Name}" $if(c.Selected)checked$endif>
+                            <input $if(c.Selected)checked$endif name="category" type="checkbox" value="${c.Name}">
                             ${c.Name}
                         </label>
                         $endfor
@@ -87,13 +84,11 @@
             </form>
         </aside>
 
-        <!-- RESULTS -->
-        <section class="results" aria-label="Results">
+        <section aria-label="Results" class="results">
 
-            <!-- TOP CHIPS: ровно 5 -->
-            <div class="tabs" role="tablist" aria-label="Categories">
+            <div aria-label="Categories" class="tabs" role="tablist">
                 $foreach(var c in root.Categories)
-                <span class="tab" role="tab" data-category="${c.Name}">
+                <span class="tab" data-category="${c.Name}" role="tab">
         $if(c.Name == "Attractions & guided tours")
         <svg class="tc-svg-icon" data-test-id="search-component-category-button-new-attractions-guided-tours-icon"
              viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -142,32 +137,31 @@
                 $endfor
             </div>
 
-            <!-- head -->
             <div class="result-head">
                 <div><strong id="totalCount">${root.Total}</strong> Experiences</div>
-                <div class="sort" role="group" aria-label="Sort options">
+                <div aria-label="Sort options" class="sort" role="group">
                     <label for="sortSelect">Sort by:</label>
                     <select id="sortSelect" name="sort">
                         $if(root.Sort == "popularity")
-                        <option value="popularity" selected>Popularity</option>
+                        <option selected value="popularity">Popularity</option>
                         $else
                         <option value="popularity">Popularity</option>
                         $endif
 
                         $if(root.Sort == "rating")
-                        <option value="rating" selected>Rating</option>
+                        <option selected value="rating">Rating</option>
                         $else
                         <option value="rating">Rating</option>
                         $endif
 
                         $if(root.Sort == "price_desc")
-                        <option value="price_desc" selected>Highest price</option>
+                        <option selected value="price_desc">Highest price</option>
                         $else
                         <option value="price_desc">Highest price</option>
                         $endif
 
                         $if(root.Sort == "price_asc")
-                        <option value="price_asc" selected>Lowest price</option>
+                        <option selected value="price_asc">Lowest price</option>
                         $else
                         <option value="price_asc">Lowest price</option>
                         $endif
@@ -176,32 +170,33 @@
                 </div>
             </div>
 
-            <!-- GRID (встроенный, без $include) -->
             <div id="gridContainer">
-            <div class="grid" data-total="${root.Total}">
-                $foreach(var e in root.Items)
-                <article class="card" data-slug="${e.Slug}">
-                    <a aria-label="${e.Title}" class="stretched" href="/product?slug=${e.Slug}"></a>
-                    <div class="media">
-                        <img alt="${e.Title}" loading="lazy" src="${e.HeroUrl}">
-                        <span class="pill">${e.CategoryName}</span>
-                    </div>
-                    <div class="body">
-                        <div class="title">${e.Title}</div>
-                        <p class="desc">${e.Description}</p>
-                        <div class="meta">⭐ ${e.Rating}/5 (${e.ReviewsCount}) · 📱 Mobile ticket</div>
-                        <div class="meta">$if(e.FreeCancellation)<span class="ok">Free cancellation</span>$endif Available in: En</div>
-                    </div>
-                    <div class="foot">
-                        <div class="from">from: <span class="price">$${e.PriceFrom}</span></div>
-                    </div>
-                </article>
-                $endfor
+                <div class="grid" data-total="${root.Total}">
+                    $foreach(var e in root.Items)
+                    <article class="card" data-slug="${e.Slug}">
+                        <a aria-label="${e.Title}" class="stretched" href="/product?slug=${e.Slug}"></a>
+                        <div class="media">
+                            <img alt="${e.Title}" loading="lazy" src="${e.HeroUrl}">
+                            <span class="pill">${e.CategoryName}</span>
+                        </div>
+                        <div class="body">
+                            <div class="title">${e.Title}</div>
+                            <p class="desc">${e.Description}</p>
+                            <div class="meta">⭐ ${e.Rating}/5 (${e.ReviewsCount}) · 📱 Mobile ticket</div>
+                            <div class="meta">$if(e.FreeCancellation)<span class="ok">Free cancellation</span>$endif
+                                Available in: En
+                            </div>
+                        </div>
+                        <div class="foot">
+                            <div class="from">from: <span class="price">$${e.PriceFrom}</span></div>
+                        </div>
+                    </article>
+                    $endfor
 
-                $if(root.Total == 0)
-                <div class="empty">Nothing found. Try changing filters.</div>
-                $endif
-            </div>
+                    $if(root.Total == 0)
+                    <div class="empty">Nothing found. Try changing filters.</div>
+                    $endif
+                </div>
             </div>
 
 
@@ -229,14 +224,28 @@
 
     <section class="section intro">
         <h2 style="font-size:22px;margin:0 0 8px 0">Introducing Tours</h2>
-        <p>…</p>
+        <p>
+        <p>Tours stands on the lower reaches of the River Loire, between Orléans and the Atlantic coast.
+            The surrounding district, the traditional province of Touraine, is known for its wines,
+            for the alleged perfection of its local spoken French, and for the Battle of Tours (732). Called "Le Jardin
+            de la France" ("The Garden of France"),
+            Tours is located between two rivers, the Loire to the north and the Cher to the south which make the city
+            quite green.…</p>
+        <p>Tours is famous also for its original medieval district, called <em>le Vieux Tours</em> with preserved
+            half-timbered buildings and <em>la Place Plumereau</em>, a square with busy pubs and restaurants, whose
+            open-air tables fill the centre of the square…</p>
+        <p>Near the cathedral of Tours, in the garden of the ancient Palais des Archevêques (now <em>Musée des
+            Beaux-Arts</em>), is a huge cedar tree planted by Napoleon. Funny fact, the garden also has in an alcove a
+            stuffed elephant,
+            Fritz. He escaped from the Barnum and Bailey circus during their stay in Tours in 1902.
+            He went mad and had to be shot down, but the city paid to honor him, and he was stuffed as a result.</p>
     </section>
 </main>
 
 <section class="city-header">
     <div class="city-header-inner container">
         <div class="city-header-left">
-            <img class="city-header-icon" src="img/city_generic.svg" alt="Tours">
+            <img alt="Tours" class="city-header-icon" src="img/city_generic.svg">
             <h2 class="city-header-title">Tours</h2>
         </div>
         <a class="city-header-link" href="/tours">View all experiences in Tours</a>
@@ -245,9 +254,7 @@
 
 <div data-include="footer"></div>
 
-<!-- базовый -->
 <script defer src="/scripts.js"></script>
-<!-- лёгкий ajax для фильтров/таба -->
 <script defer src="/list.js"></script>
 </body>
 </html>

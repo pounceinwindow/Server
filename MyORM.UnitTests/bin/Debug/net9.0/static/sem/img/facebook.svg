@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40">
+    <defs>
+        <style>.cls-1{fill:#527ebb;}.cls-2{fill:#fff;}</style>
+    </defs>
+    <title>facebook</title>
+    <g id="Livello_2" data-name="Livello 2">
+        <g id="Livello_4" data-name="Livello 4">
+            <path class="cls-1" d="M20,40A20,20,0,1,0,0,20,20,20,0,0,0,20,40"/>
+            <path class="cls-2"
+                  d="M15.18,16.61h2.07v-2a5.37,5.37,0,0,1,.67-3.1A3.68,3.68,0,0,1,21.12,10a13,13,0,0,1,3.71.37l-.52,3.06a7,7,0,0,0-1.67-.25c-.8,0-1.52.29-1.52,1.09v2.34h3.3l-.23,3H21.12V30H17.24V19.61H15.18Z"/>
+        </g>
+    </g>
+</svg>

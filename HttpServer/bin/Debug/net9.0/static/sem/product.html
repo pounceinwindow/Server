@@ -9,16 +9,13 @@
 </head>
 <body class="product-page">
 
-<!-- HEADER будет подгружен твоим скриптом -->
 <div data-include="header"></div>
 
 
-
-<!-- HERO -->
 <div class="hero">
     <div class="hero-frame">
-        $if(root.Details.Hero)
-        <img alt="${root.Details.Title}" src="${root.Details.Hero}">
+        $if(root.Details.HeroUrl)
+        <img alt="${root.Details.Title}" src="${root.Details.HeroUrl}">
         $else
         <img alt="${root.Details.Title}" src="/sem/img/hero-placeholder.jpg">
         $endif
@@ -26,7 +23,6 @@
     </div>
 </div>
 <div class="container">
-    <!-- BREADCRUMBS -->
     <nav class="breadcrumbs">
         <a href="/">Home</a>
         <span class="sep">/</span>
@@ -41,14 +37,12 @@
 <div class="container">
     <div class="grid">
 
-        <!-- LEFT COLUMN -->
         <main>
 
             <div class="category-pill">${root.Details.Category}</div>
 
             <h1 class="title">${root.Details.Title}</h1>
 
-            <!-- Rating -->
             <div class="rating">
                 <div class="badge">
                     ${root.Details.Rating}
@@ -57,7 +51,6 @@
                 <a href="#reviews">Based on ${root.Details.Reviews} reviews</a>
             </div>
 
-            <!-- Meta -->
             <div class="meta">
                 <div class="meta-item">
                     <span>⏱</span>
@@ -82,7 +75,6 @@
                 </div>
             </div>
 
-            <!-- Chips -->
             <div class="chips">
                 $foreach(var chip in root.Details.Chips)
                 <div class="chip">
@@ -92,7 +84,6 @@
                 $endfor
             </div>
 
-            <!-- Why you'll love this -->
             <section>
                 <h2>Why you’ll love this</h2>
                 <ul class="list">
@@ -102,7 +93,6 @@
                 </ul>
             </section>
 
-            <!-- What to expect -->
             $if(root.Details.DescriptionHtml)
             <section class="expect">
                 <h2>What to expect</h2>
@@ -112,7 +102,6 @@
             </section>
             $endif
 
-            <!-- Included -->
             <section>
                 <h2>What’s included</h2>
                 <ul class="list included">
@@ -122,7 +111,6 @@
                 </ul>
             </section>
 
-            <!-- Remember -->
             <section>
                 <h2>What to remember</h2>
                 <ul class="list">
@@ -132,7 +120,6 @@
                 </ul>
             </section>
 
-            <!-- Meeting point -->
             $if(root.Details.Meeting)
             <section>
                 <h2>Meeting point</h2>
@@ -161,7 +148,6 @@
             </section>
             $endif
 
-            <!-- Cancellation policy -->
             $if(root.Details.CancelPolicy)
             <section>
                 <h2>Cancellation policy</h2>
@@ -169,7 +155,6 @@
             </section>
             $endif
 
-            <!-- Reviews -->
             <section id="reviews">
                 <h2>Reviews</h2>
                 <div class="reviews-grid">
@@ -211,7 +196,6 @@
 
         </main>
 
-        <!-- RIGHT COLUMN -->
         <aside class="book-card">
             <h3>Book your ticket</h3>
             <div class="best">
@@ -265,7 +249,6 @@
     </div>
 </div>
 
-<!-- YOU MIGHT ALSO LIKE -->
 <section class="more">
     <div class="container">
         <h2>You might also like</h2>
@@ -291,12 +274,9 @@
     </div>
 </section>
 
-<!-- FOOTER будет подгружен твоим скриптом -->
 <div data-include="footer"></div>
 
-<!-- Твой общий JS -->
 <script defer src="/scripts.js"></script>
-<script defer src="/product.js"></script>
 
 
 </body>

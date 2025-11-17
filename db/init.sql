@@ -1,15 +1,4 @@
-﻿
--- =========================
--- DROP (in correct order)
--- =========================
-DROP TABLE IF EXISTS reviews;
-DROP TABLE IF EXISTS experience_details;
-DROP TABLE IF EXISTS experiences;
-
--- =========================
--- EXPERIENCES (catalog)
--- =========================
-CREATE TABLE IF NOT EXISTS experiences (
+﻿CREATE TABLE IF NOT EXISTS experiences (
                                            id                      SERIAL PRIMARY KEY,
                                            slug                    TEXT NOT NULL UNIQUE,
                                            title                   TEXT NOT NULL,
@@ -28,9 +17,7 @@ CREATE TABLE IF NOT EXISTS experiences (
     meal_included           BOOLEAN DEFAULT FALSE
     );
 
--- =========================
--- EXPERIENCE_DETAILS (product page)
--- =========================
+
 CREATE TABLE IF NOT EXISTS experience_details (
                                                   id               SERIAL PRIMARY KEY,
                                                   experience_id    INT NOT NULL REFERENCES experiences(id) ON DELETE CASCADE,
@@ -57,9 +44,6 @@ CREATE TABLE IF NOT EXISTS experience_details (
     more_json        TEXT DEFAULT '[]'
     );
 
--- =========================
--- REVIEWS
--- =========================
 CREATE TABLE IF NOT EXISTS reviews (
                                        id            SERIAL PRIMARY KEY,
                                        experience_id INT NOT NULL REFERENCES experiences(id) ON DELETE CASCADE,
@@ -69,9 +53,7 @@ CREATE TABLE IF NOT EXISTS reviews (
     created_at    TIMESTAMP NOT NULL DEFAULT NOW()
     );
 
--- =========================
--- SEED: 14 experiences (order = Musement list)
--- =========================
+
 INSERT INTO experiences (slug, title, city, category_name, price_from, rating, reviews_count, hero_url,
                          instant_confirmation, free_cancellation, skip_the_line, guided_tour, entrance_fees_included, private_tour, meal_included)
 VALUES
@@ -131,9 +113,7 @@ VALUES
      'https://images.musement.com/cover/0165/48/thumb_16447200_cover_header.jpg?w=1680&q=50',
      TRUE, FALSE, TRUE, FALSE, TRUE, FALSE, FALSE);
 
--- =========================
--- BASE DETAILS
--- =========================
+
 INSERT INTO experience_details
 (experience_id, category, city, title, hero, hero_url, rating, rating_text, reviews, languages, duration, price, cancel_policy, description_html,
  chips_json, love_json, included_json, remember_json, more_json)
@@ -145,11 +125,7 @@ SELECT
     '[]','[]','[]','[]','[]'
 FROM experiences e;
 
--- =========================
--- PER‑TOUR FILLS
--- =========================
 
--- Chambord entrance ticket
 UPDATE experience_details d
 SET
     languages = 'English, Italian, French, Spanish, German, Portuguese, Russian, Dutch, Japanese, Polish, Chinese, Korean',
@@ -164,7 +140,6 @@ SET
     description_html = '<p>More than a castle, Château de Chambord is a glorious historical place that will take you to the heart of the Loire Valley. Built in 1519, it is the largest château in the Loire Valley with over 400 rooms, 300 fireplaces and 85 staircases, including the famous double helix.</p>'
     FROM experiences e WHERE d.experience_id=e.id AND e.slug='entrance-ticket-to-chambord-castle';
 
--- Loire Valley day: Azay‑le‑Rideau & Villandry
 UPDATE experience_details d
 SET
     languages = 'English',
@@ -179,7 +154,6 @@ SET
     description_html = '<p>Complete discovery of the Loire with must‑see Azay‑le‑Rideau and Villandry. In the afternoon, learn about Loire Valley wines during a cellar visit in the Vouvray appellation.</p>'
     FROM experiences e WHERE d.experience_id=e.id AND e.slug='loire-valley-day-from-tours-with-azay-le-rideau-villandry';
 
--- E‑bike from Villesavin
 UPDATE experience_details d
 SET
     languages = 'English',
@@ -194,7 +168,6 @@ SET
     description_html = '<p>Enjoy a scenic e‑bike loop starting from Villesavin and reaching Chambord via forest paths and small roads. Visit both châteaux and sample local specialties.</p>'
     FROM experiences e WHERE d.experience_id=e.id AND e.slug='e-bike-tour-to-chambord-from-villesavin';
 
--- E‑bike from Tours
 UPDATE experience_details d
 SET
     languages = 'English',
@@ -209,7 +182,6 @@ SET
     description_html = '<p>Cycle from Tours to Chambord with electric bikes. Discover Villesavin on the way and savor a tasting of local produce.</p>'
     FROM experiences e WHERE d.experience_id=e.id AND e.slug='e-bike-tour-to-chambord-from-tours';
 
--- Full day: Chambord & Chenonceau
 UPDATE experience_details d
 SET
     languages = 'English',
@@ -224,7 +196,6 @@ SET
     description_html = '<p>Two Loire superstars in one day: the elegant river‑spanning Chenonceau and the monumental Chambord. Small group with an expert driver‑guide.</p>'
     FROM experiences e WHERE d.experience_id=e.id AND e.slug='full-day-tour-of-chambord-and-chenonceau-from-tours';
 
--- Sidecar by night
 UPDATE experience_details d
 SET
     languages = 'English, French',
@@ -239,7 +210,6 @@ SET
     description_html = '<p>Nighttime ride through Tours with stories, viewpoints and a convivial tasting stop.</p>'
     FROM experiences e WHERE d.experience_id=e.id AND e.slug='retro-sidecar-tour-by-night';
 
--- Great Escape sidecar
 UPDATE experience_details d
 SET
     languages = 'English, French',
@@ -254,7 +224,6 @@ SET
     description_html = '<p>Unforgettable ride through vineyards and backroads around Tours, tailored by your sider.</p>'
     FROM experiences e WHERE d.experience_id=e.id AND e.slug='great-escape-sidecar-tour-from-tours';
 
--- Retro Classic sidecar
 UPDATE experience_details d
 SET
     languages = 'English',
@@ -269,7 +238,6 @@ SET
     description_html = '<p>Compact introduction to Tours and its highlights with a retro flair.</p>'
     FROM experiences e WHERE d.experience_id=e.id AND e.slug='retro-classic-sidecar-tour-from-tours';
 
--- Half‑day sidecar
 UPDATE experience_details d
 SET
     languages = 'English, French',
@@ -284,7 +252,6 @@ SET
     description_html = '<p>Half‑day discovery of Loire landscapes, villages and châteaux aboard a sidecar.</p>'
     FROM experiences e WHERE d.experience_id=e.id AND e.slug='half-day-sidecar-tour-of-the-loire-valley-from-tours';
 
--- Chenonceau & Chambord with wine tasting
 UPDATE experience_details d
 SET
     languages = 'English',
@@ -299,7 +266,6 @@ SET
     description_html = '<p>Two châteaux, a scenic day on Loire backroads and a friendly tasting—this is the essential Loire experience.</p>'
     FROM experiences e WHERE d.experience_id=e.id AND e.slug='chenonceau-and-chambord-tour-with-wine-tasting';
 
--- Villandry & Azay‑le‑Rideau guided
 UPDATE experience_details d
 SET
     languages = 'English',
@@ -314,7 +280,6 @@ SET
     description_html = '<p>A compact morning into Renaissance architecture and world‑famous gardens with skip‑the‑line entrances.</p>'
     FROM experiences e WHERE d.experience_id=e.id AND e.slug='guided-visit-villandry-azay-le-rideau-chateaux-from-tours';
 
--- Private lunch premium day
 UPDATE experience_details d
 SET
     languages = 'English',
@@ -329,7 +294,6 @@ SET
     description_html = '<p>Premium full‑day including both châteaux and a convivial private lunch in a charming property.</p>'
     FROM experiences e WHERE d.experience_id=e.id AND e.slug='a-day-in-chambord-and-chenonceau-with-private-lunch';
 
--- Vouvray afternoon
 UPDATE experience_details d
 SET
     languages = 'English',
@@ -344,7 +308,6 @@ SET
     description_html = '<p>Afternoon immersion into limestone cellars and Chenin Blanc terroirs with generous tastings.</p>'
     FROM experiences e WHERE d.experience_id=e.id AND e.slug='afternoon-wine-tour-to-vouvray';
 
--- ZooParc de Beauval
 UPDATE experience_details d
 SET
     languages = 'Self‑guided',
@@ -359,7 +322,6 @@ SET
     description_html = '<p>World‑class zoological park with immersive exhibits and renowned conservation programs.</p>'
     FROM experiences e WHERE d.experience_id=e.id AND e.slug='entrance-ticket-for-zooparc-de-beauval';
 
--- REVIEWS
 INSERT INTO reviews (experience_id, author, comment, rating, created_at) VALUES
                                                                              ((SELECT id FROM experiences WHERE slug = 'entrance-ticket-to-chambord-castle'),'Anna','Great castle, skip‑the‑line really saved time.',5, NOW() - INTERVAL '5 days'),
                                                                              ((SELECT id FROM experiences WHERE slug = 'loire-valley-day-from-tours-with-azay-le-rideau-villandry'),'Maria','Perfect day trip, guide was amazing.',5, NOW() - INTERVAL '8 days'),

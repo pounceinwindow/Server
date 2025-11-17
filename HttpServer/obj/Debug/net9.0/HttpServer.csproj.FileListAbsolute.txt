@@ -1071,10 +1071,6 @@ C:\Users\pounce\Downloads\HttpServer\HttpServer\bin\Debug\net9.0\settings.json
 C:\Users\pounce\Downloads\HttpServer\HttpServer\bin\Debug\net9.0\static\auth\login.html
 C:\Users\pounce\Downloads\HttpServer\HttpServer\bin\Debug\net9.0\static\image\cactus.svg
 C:\Users\pounce\Downloads\HttpServer\HttpServer\bin\Debug\net9.0\static\image\worker.svg
-C:\Users\pounce\Downloads\HttpServer\HttpServer\bin\Debug\net9.0\static\loginflower\forget.html
-C:\Users\pounce\Downloads\HttpServer\HttpServer\bin\Debug\net9.0\static\loginflower\index.html
-C:\Users\pounce\Downloads\HttpServer\HttpServer\bin\Debug\net9.0\static\loginflower\register.html
-C:\Users\pounce\Downloads\HttpServer\HttpServer\bin\Debug\net9.0\static\loginflower\style.css
 C:\Users\pounce\Downloads\HttpServer\HttpServer\bin\Debug\net9.0\static\image\bg.jpg
 C:\Users\pounce\Downloads\HttpServer\HttpServer\bin\Debug\net9.0\static\image\logo.png
 C:\Users\pounce\Downloads\HttpServer\HttpServer\bin\Debug\net9.0\HttpServer.deps.json
@@ -1154,7 +1150,8 @@ C:\Users\pounce\Downloads\HttpServer\HttpServer\bin\Debug\net9.0\static\sem\styl
 C:\Users\pounce\Downloads\HttpServer\HttpServer\bin\Debug\net9.0\static\sem\product.css
 C:\Users\pounce\Downloads\HttpServer\HttpServer\bin\Debug\net9.0\static\404.html
 C:\Users\pounce\Downloads\HttpServer\HttpServer\bin\Debug\net9.0\static\sem\img\1.jpg
-C:\Users\pounce\Downloads\HttpServer\HttpServer\bin\Debug\net9.0\static\sem\product.js
 C:\Users\pounce\Downloads\HttpServer\HttpServer\bin\Debug\net9.0\static\sem\img\chateu.avif
 C:\Users\pounce\Downloads\HttpServer\HttpServer\bin\Debug\net9.0\static\sem\list.js
 C:\Users\pounce\Downloads\HttpServer\HttpServer\bin\Debug\net9.0\static\sem\partials\grid.html
+C:\Users\pounce\Downloads\HttpServer\HttpServer\bin\Debug\net9.0\email.json
+C:\Users\pounce\Downloads\HttpServer\HttpServer\bin\Debug\net9.0\static\admin\index.html

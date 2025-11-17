@@ -4,7 +4,7 @@
     server.Start();
 
     Console.WriteLine("нажмите /stop для завершения.\n");
-    
+
     while (true)
     {
         var stop = Console.ReadLine();

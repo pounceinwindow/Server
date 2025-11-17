@@ -1,6 +1,8 @@
 ﻿using HttpServer.Framework.Settings;
 using MyORM;
+
 namespace HttpServer.Services;
+
 public sealed class TourService
 {
     private static string Cs => SettingsManager.Instance.Settings.ConnectionString!;
@@ -11,28 +13,30 @@ public sealed class TourService
         return db.ReadAll<Experience>("experiences");
     }
 
-    public Experience Create(string title, string city, string category, decimal price, string hero_url, string description = "")
+    public Experience Create(string title, string city, string category, decimal price, string hero_url,
+        string description = "")
     {
-        var cs   = SettingsManager.Instance.Settings.ConnectionString!;
-        var exp  = new Experience
+        var cs = SettingsManager.Instance.Settings.ConnectionString!;
+        var exp = new Experience
         {
-            Slug         = Guid.NewGuid().ToString("n")[..8],
-            Title        = title,
-            City         = city,
+            Slug = Guid.NewGuid().ToString("n")[..8],
+            Title = title,
+            City = city,
             CategoryName = string.IsNullOrWhiteSpace(category) ? "Activities" : category,
-            PriceFrom    = price,
-            HeroUrl      = hero_url
-            
+            PriceFrom = price,
+            HeroUrl = hero_url
         };
 
         using (var db = new OrmContext(cs))
+        {
             exp = db.Create(exp, "experiences");
+        }
 
         if (!string.IsNullOrWhiteSpace(description))
         {
             var det = new ExperienceDetails
             {
-                ExperienceId   = exp.Id,
+                ExperienceId = exp.Id,
                 DescriptionHtml = description,
                 HeroUrl = hero_url
             };

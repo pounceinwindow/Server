@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Net;
+using System.Text;
 using MiniTemplateEngine.Parsing;
 using MiniTemplateEngine.Runtime;
 
@@ -30,7 +31,7 @@ internal static class Render
             case VarNode v:
                 var val = Eval.ResolvePath(v.Expr, ctx);
                 var raw = v.Expr.EndsWith("Html", StringComparison.OrdinalIgnoreCase);
-                sb.Append(raw ? val?.ToString() ?? "" : System.Net.WebUtility.HtmlEncode(val?.ToString() ?? ""));
+                sb.Append(raw ? val?.ToString() ?? "" : WebUtility.HtmlEncode(val?.ToString() ?? ""));
                 break;
 
 

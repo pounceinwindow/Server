@@ -2,10 +2,11 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
 using Npgsql;
+using NpgsqlTypes;
 
 namespace MyORM;
 
-public class OrmContext
+public sealed class OrmContext : IDisposable
 {
     private readonly string _connectionString;
 
@@ -14,7 +15,11 @@ public class OrmContext
         _connectionString = connectionString;
     }
 
-    private string GetTableName<T>(string tableName = null)
+    public void Dispose()
+    {
+    }
+
+    private static string GetTableName<T>(string tableName = null)
     {
         if (!string.IsNullOrWhiteSpace(tableName))
             return tableName.ToLower();
@@ -26,66 +31,89 @@ public class OrmContext
 
     public T Create<T>(T entity, string tableName = null) where T : class, new()
     {
-        using var dataSource = NpgsqlDataSource.Create(_connectionString);
-        var props = typeof(T).GetProperties().ToList();
-        var cols = props.Skip(1).Select(p => p.Name.ToLower()).ToList();
+        using var ds = NpgsqlDataSource.Create(_connectionString);
         var table = GetTableName<T>(tableName);
-        var sql =
-            $"INSERT INTO {table} ({string.Join(",", cols)}) VALUES ({string.Join(",", cols.Select(c => "@" + c))}) RETURNING *;";
-        var cmd = dataSource.CreateCommand(sql);
-        foreach (var p in props.Skip(1))
-            cmd.Parameters.AddWithValue(p.Name.ToLower(), p.GetValue(entity) ?? DBNull.Value);
+        var colMap = BuildColumnMap<T>(ds, table);
+
+        if (colMap.Count == 0)
+            throw new InvalidOperationException($"No matching columns found for table '{table}'");
+
+        var cols = colMap.Values.ToList();
+        var sql = $"INSERT INTO {table} ({string.Join(",", cols)}) " +
+                  $"VALUES ({string.Join(",", cols.Select(c => "@" + c))}) RETURNING *;";
+
+        using var cmd = ds.CreateCommand(sql);
+        foreach (var kv in colMap)
+        {
+            var prop = typeof(T).GetProperty(kv.Key)!;
+            var col = kv.Value;
+            var val = prop.GetValue(entity) ?? DBNull.Value;
+
+            if (val is decimal d)
+                cmd.Parameters.Add(new NpgsqlParameter(col, NpgsqlDbType.Numeric) { Value = d });
+            else
+                cmd.Parameters.AddWithValue(col, val);
+        }
+
         using var r = cmd.ExecuteReader();
-        if (r.Read())
-            return Map<T>(r);
-        return entity;
+        return r.Read() ? Map<T>(r) : entity;
     }
+
 
     public T ReadById<T>(int id, string tableName = null) where T : class, new()
     {
-        using var dataSource = NpgsqlDataSource.Create(_connectionString);
+        using var ds = NpgsqlDataSource.Create(_connectionString);
         var table = GetTableName<T>(tableName);
-        var sql = $"SELECT * FROM {table} WHERE id = @id LIMIT 1";
-        var cmd = dataSource.CreateCommand(sql);
+        using var cmd = ds.CreateCommand($"SELECT * FROM {table} WHERE id = @id LIMIT 1");
         cmd.Parameters.AddWithValue("@id", id);
         using var r = cmd.ExecuteReader();
-        if (r.Read())
-            return Map<T>(r);
-        return null;
+        return r.Read() ? Map<T>(r) : null;
     }
 
     public List<T> ReadAll<T>(string tableName = null) where T : class, new()
     {
-        using var dataSource = NpgsqlDataSource.Create(_connectionString);
+        using var ds = NpgsqlDataSource.Create(_connectionString);
         var table = GetTableName<T>(tableName);
-        var cmd = dataSource.CreateCommand($"SELECT * FROM {table}");
+        using var cmd = ds.CreateCommand($"SELECT * FROM {table}");
         using var r = cmd.ExecuteReader();
         var list = new List<T>();
-        while (r.Read())
-            list.Add(Map<T>(r));
+        while (r.Read()) list.Add(Map<T>(r));
         return list;
     }
 
     public void Update<T>(int id, T entity, string tableName = null) where T : class, new()
     {
-        using var dataSource = NpgsqlDataSource.Create(_connectionString);
-        var props = typeof(T).GetProperties().ToList();
+        using var ds = NpgsqlDataSource.Create(_connectionString);
         var table = GetTableName<T>(tableName);
-        var sets = string.Join(",", props.Skip(1).Select(p => $"{p.Name.ToLower()}=@{p.Name.ToLower()}"));
+        var colMap = BuildColumnMap<T>(ds, table);
+        if (colMap.Count == 0) return;
+
+        var sets = string.Join(",", colMap.Select(kv => $"{kv.Value}=@{kv.Value}"));
         var sql = $"UPDATE {table} SET {sets} WHERE id=@id";
-        var cmd = dataSource.CreateCommand(sql);
-        foreach (var p in props.Skip(1))
-            cmd.Parameters.AddWithValue(p.Name.ToLower(), p.GetValue(entity) ?? DBNull.Value);
+
+        using var cmd = ds.CreateCommand(sql);
+        foreach (var kv in colMap)
+        {
+            var prop = typeof(T).GetProperty(kv.Key)!;
+            var col = kv.Value;
+            var val = prop.GetValue(entity) ?? DBNull.Value;
+
+            if (val is decimal d)
+                cmd.Parameters.Add(new NpgsqlParameter(col, NpgsqlDbType.Numeric) { Value = d });
+            else
+                cmd.Parameters.AddWithValue(col, val);
+        }
+
         cmd.Parameters.AddWithValue("@id", id);
         cmd.ExecuteNonQuery();
     }
 
+
     public void Delete<T>(int id, string tableName = null) where T : class, new()
     {
-        using var dataSource = NpgsqlDataSource.Create(_connectionString);
+        using var ds = NpgsqlDataSource.Create(_connectionString);
         var table = GetTableName<T>(tableName);
-        var sql = $"DELETE FROM {table} WHERE id = @id";
-        var cmd = dataSource.CreateCommand(sql);
+        using var cmd = ds.CreateCommand($"DELETE FROM {table} WHERE id = @id");
         cmd.Parameters.AddWithValue("@id", id);
         cmd.ExecuteNonQuery();
     }
@@ -108,28 +136,21 @@ public class OrmContext
             yield return Map<T>(reader);
     }
 
-    private string BuildSqlQuery(Expression expression)
+    private static string BuildSqlQuery(Expression expression)
     {
-        switch (expression)
+        return expression switch
         {
-            case BinaryExpression b:
-                return $"({BuildSqlQuery(b.Left)} {GetSqlOperator(b.NodeType)} {BuildSqlQuery(b.Right)})";
-            case MemberExpression m when m.Expression is ParameterExpression:
-                return ToSnakeCase(m.Member.Name);
-            case MemberExpression m:
-                return FormatConstant(GetValue(m));
-            case ConstantExpression c:
-                return FormatConstant(c.Value);
-            case UnaryExpression u when u.NodeType == ExpressionType.Convert:
-                return BuildSqlQuery(u.Operand);
-            case MethodCallExpression mc:
-                return HandleMethodCall(mc);
-            default:
-                throw new NotSupportedException($"Unsupported expression: {expression.GetType().Name}");
-        }
+            BinaryExpression b => $"({BuildSqlQuery(b.Left)} {GetSqlOperator(b.NodeType)} {BuildSqlQuery(b.Right)})",
+            MemberExpression m when m.Expression is ParameterExpression => ToSnakeCase(m.Member.Name),
+            MemberExpression m => FormatConstant(GetValue(m)),
+            ConstantExpression c => FormatConstant(c.Value),
+            UnaryExpression u when u.NodeType == ExpressionType.Convert => BuildSqlQuery(u.Operand),
+            MethodCallExpression mc => HandleMethodCall(mc),
+            _ => throw new NotSupportedException($"Unsupported expression: {expression.GetType().Name}")
+        };
     }
 
-    private string HandleMethodCall(MethodCallExpression mc)
+    private static string HandleMethodCall(MethodCallExpression mc)
     {
         if (mc.Object != null && mc.Method.DeclaringType == typeof(string) && mc.Arguments.Count == 1)
         {
@@ -165,17 +186,14 @@ public class OrmContext
 
     private static string ToSnakeCase(string name)
     {
-        if (string.IsNullOrEmpty(name))
-            return name;
-
+        if (string.IsNullOrEmpty(name)) return name;
         var sb = new StringBuilder(name.Length + 5);
         for (var i = 0; i < name.Length; i++)
         {
             var c = name[i];
             if (char.IsUpper(c))
             {
-                if (i > 0)
-                    sb.Append('_');
+                if (i > 0) sb.Append('_');
                 sb.Append(char.ToLowerInvariant(c));
             }
             else
@@ -209,16 +227,17 @@ public class OrmContext
         var props = typeof(T).GetProperties(BindingFlags.Public | BindingFlags.Instance).Where(p => p.CanWrite)
             .ToList();
         var cols = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
-        for (var i = 0; i < r.FieldCount; i++)
-            cols[r.GetName(i)] = i;
+        for (var i = 0; i < r.FieldCount; i++) cols[r.GetName(i)] = i;
+
         foreach (var p in props)
         {
             if (!cols.TryGetValue(p.Name, out var idx) &&
                 !cols.TryGetValue(p.Name.ToLower(), out idx) &&
                 !cols.TryGetValue(ToSnakeCase(p.Name), out idx))
                 continue;
-            if (r.IsDBNull(idx))
-                continue;
+
+            if (r.IsDBNull(idx)) continue;
+
             var val = r.GetValue(idx);
             var t = Nullable.GetUnderlyingType(p.PropertyType) ?? p.PropertyType;
             var converted = Convert.ChangeType(val, t);
@@ -226,5 +245,35 @@ public class OrmContext
         }
 
         return obj;
+    }
+
+    private static IEnumerable<string> GetColumns(NpgsqlDataSource ds, string table)
+    {
+        using var cmd = ds.CreateCommand(
+            "select column_name from information_schema.columns where table_name = @t");
+        cmd.Parameters.AddWithValue("t", table.ToLowerInvariant());
+        using var r = cmd.ExecuteReader();
+        while (r.Read()) yield return r.GetString(0);
+    }
+
+    private Dictionary<string, string> BuildColumnMap<T>(NpgsqlDataSource ds, string table)
+    {
+        var existing = new HashSet<string>(GetColumns(ds, table), StringComparer.OrdinalIgnoreCase);
+        var map = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+
+        foreach (var p in typeof(T).GetProperties(BindingFlags.Public | BindingFlags.Instance))
+        {
+            if (!p.CanRead || string.Equals(p.Name, "Id", StringComparison.OrdinalIgnoreCase)) continue;
+
+            var c1 = p.Name;
+            var c2 = p.Name.ToLowerInvariant();
+            var c3 = ToSnakeCase(p.Name);
+
+            if (existing.Contains(c1)) map[p.Name] = c1;
+            else if (existing.Contains(c2)) map[p.Name] = c2;
+            else if (existing.Contains(c3)) map[p.Name] = c3;
+        }
+
+        return map;
     }
 }

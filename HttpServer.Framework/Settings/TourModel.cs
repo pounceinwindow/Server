@@ -1,6 +1,5 @@
 ﻿using System.Text.Json;
 
-
 public class Experience
 {
     public int Id { get; set; }
@@ -85,8 +84,6 @@ public class Review
 }
 
 
-
-
 public class CategoryItem
 {
     public string Name { get; set; } = "";
@@ -101,7 +98,6 @@ public class ProductViewModel
     public List<Review> Reviews { get; set; } = new();
     public List<Experience> RelatedTours { get; set; } = new();
 }
-
 
 
 public class CardVm
@@ -150,7 +146,7 @@ public class ListingViewModel
     public List<CategoryItem> Categories { get; set; } = new();
 
 
-    public List<CategoryItem> TopCategories { get; set; } = new();  
+    public List<CategoryItem> TopCategories { get; set; } = new();
 
     public string Sort { get; set; } = "popularity";
 }

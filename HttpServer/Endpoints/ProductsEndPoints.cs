@@ -1,5 +1,5 @@
-﻿﻿using HttpServer.Framework.core.Attributes;
-using System.Net;
+﻿using System.Net;
+using HttpServer.Framework.core.Attributes;
 using HttpServer.Framework.Core.HttpResponse;
 using HttpServer.Framework.Settings;
 using MyORM;
@@ -12,8 +12,8 @@ public class ProductEndpoint : BaseEndpoint
     {
         var slug = Context.Request.QueryString["slug"];
         if (string.IsNullOrWhiteSpace(slug))
-            return Page("sem/404.html", null);
-        
+            return Page("404.html", null);
+
         var settings = SettingsManager.Instance.Settings;
         var db = new OrmContext(settings.ConnectionString);
 
@@ -22,16 +22,15 @@ public class ProductEndpoint : BaseEndpoint
             "experiences"
         );
         if (exp == null)
-            return Page("sem/404.html", null);
+            return Page("404.html", null);
 
         var details = db.FirstOrDefault<ExperienceDetails>(
             d => d.ExperienceId == exp.Id,
             "experience_details"
         );
-       
+
 
         if (details == null)
-        {
             details = new ExperienceDetails
             {
                 ExperienceId = exp.Id,
@@ -40,9 +39,8 @@ public class ProductEndpoint : BaseEndpoint
                 Category = exp.CategoryName,
                 Price = exp.PriceFrom,
                 Rating = exp.Rating,
-                Reviews = exp.ReviewsCount,
+                Reviews = exp.ReviewsCount
             };
-        }
 
         if (!string.IsNullOrWhiteSpace(details.DescriptionHtml))
             details.DescriptionHtml = WebUtility.HtmlDecode(details.DescriptionHtml).Trim();
@@ -63,7 +61,6 @@ public class ProductEndpoint : BaseEndpoint
             Details = details,
             Reviews = reviews,
             RelatedTours = related
-            
         };
         Console.WriteLine("DescriptionHtml: " + details.DescriptionHtml);
         return Page("sem/product.html", vm);

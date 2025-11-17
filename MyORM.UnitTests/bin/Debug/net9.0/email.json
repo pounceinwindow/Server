@@ -1,0 +1,8 @@
+﻿{
+  "SmtpHost": "smtp.gmail.com",
+  "SmtpPort": 587,
+  "SmtpUser": "adk03042006@gmail.com",
+  "SmtpPass": "yyuuozqqnjvkpsdk",
+  "FromAddr": "adk03042006@gmail.com",
+  "FromName": "HttpServer"
+}

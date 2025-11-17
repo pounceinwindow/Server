@@ -1,4 +1,3 @@
-// ВСТАВКА header/footer + инициализация всего остального
 document.addEventListener('DOMContentLoaded', async () => {
     const mountHeader = document.querySelector('[data-include="header"]');
     const mountFooter = document.querySelector('[data-include="footer"]');
@@ -13,38 +12,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         mountFooter.innerHTML = html;
     }
 
-    initHeaderShrink();
     initFilterSections();
     initPriceSlider();
     initSinglePriceRange();
 });
-document.getElementById("read-toggle")?.addEventListener("click", () => {
-    const box = document.getElementById("desc-box");
-    box.classList.remove("faded");
-    box.style.maxHeight = "none";
-    console.log("Description expanded");
-});
 
-// Липкий header + shrink
-function initHeaderShrink() {
-    const topEl = document.getElementById('siteTop');
-    if (!topEl) return;
-
-    let ticking = false;
-
-    function onScroll() {
-        if (ticking) return;
-        requestAnimationFrame(() => {
-            const scrolled = window.scrollY || document.documentElement.scrollTop;
-            topEl.classList.toggle('shrink', scrolled > 16);
-            ticking = false;
-        });
-        ticking = true;
-    }
-
-    window.addEventListener('scroll', onScroll, {passive: true});
-    onScroll();
-}
 
 // сворачивание секций фильтров
 function initFilterSections() {
@@ -68,7 +40,7 @@ function initSinglePriceRange() {
 
     r.addEventListener('input', sync);
     sync();
-}ф
+}
 
 function paintRange(input) {
     const min = +input.min || 0;
@@ -115,7 +87,6 @@ function initPriceSlider() {
         outMin.textContent = '$' + (+minI.value).toLocaleString();
         outMax.textContent = '$' + (+maxI.value).toLocaleString();
 
-        // чтобы пальцы не конфликтовали
         minI.style.zIndex =
             (parseInt(minI.value, 10) > MAX - 50) ? 5 : 3;
     }
@@ -133,20 +104,5 @@ function initPriceSlider() {
 
     paint();
 
-    // AJAX загрузка отзывов
-    async function loadReviews(tourId) {
-        const response = await fetch(`/api/reviews/${tourId}`);
-        const reviews = await response.json();
-        renderReviews(reviews);
-    }
 
-// Валидация формы бронирования
-    function validateBooking(form) {
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(form.email.value)) {
-            showError('Please enter a valid email');
-            return false;
-        }
-        return true;
-    }
 }

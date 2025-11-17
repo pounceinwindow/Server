@@ -152,8 +152,13 @@ button, input, select {
     fill: rgb(175, 171, 171)
 }
 
-.brand-wrap .brand-svg .cls-2 { fill: #E10019; }
-.brand-wrap .brand-svg .cls-1 { fill: #726e6e; }
+.brand-wrap .brand-svg .cls-2 {
+    fill: #E10019;
+}
+
+.brand-wrap .brand-svg .cls-1 {
+    fill: #726e6e;
+}
 
 /* Navigation */
 .main-nav {
@@ -899,12 +904,17 @@ button, input, select {
         justify-self: center;
         margin-left: 0;
     }
-    .brand-col svg .cls-2 { fill: #E10019; }
-   .brand-col svg  .cls-1 { fill: #726e6e; }
-}
-/* Добавить в конец styles.css */
 
-/* Active tab state */
+    .brand-col svg .cls-2 {
+        fill: #E10019;
+    }
+
+    .brand-col svg .cls-1 {
+        fill: #726e6e;
+    }
+}
+
+
 .tab.active {
     background: var(--accent);
     color: #fff;
@@ -919,11 +929,11 @@ button, input, select {
     background: var(--accent);
 }
 
-/* Cursor pointer for tabs */
 .tab {
     cursor: pointer;
     transition: all 0.2s ease;
 }
+
 .sort label {
     font-size: 14px;
     color: #6b7280;

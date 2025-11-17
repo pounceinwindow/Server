@@ -110,22 +110,19 @@ internal static class Eval
             var itemStart = containsIdx + ".Contains(".Length;
             var itemEnd = expr.IndexOf(')', itemStart);
             if (itemEnd < 0) throw new Exception("Malformed Contains expression");
-            
+
             var itemPath = expr.Substring(itemStart, itemEnd - itemStart).Trim();
-            
+
             var collection = ResolvePath(collectionPath, ctx);
             var item = ResolveValue(itemPath, ctx);
-            
+
             if (collection is IEnumerable enumerable)
-            {
                 foreach (var el in enumerable)
-                {
                     if (string.Equals(Convert.ToString(el, CultureInfo.InvariantCulture),
-                                    Convert.ToString(item, CultureInfo.InvariantCulture),
-                                    StringComparison.OrdinalIgnoreCase))
+                            Convert.ToString(item, CultureInfo.InvariantCulture),
+                            StringComparison.OrdinalIgnoreCase))
                         return true;
-                }
-            }
+
             return false;
         }
 

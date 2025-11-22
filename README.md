@@ -1,10 +1,9 @@
 # Server
-__откройте Docker__
 ```docker-compose up --build```
 
-Аутентификация http://localhost:1234/auth
+__Аутентификация__ http://localhost:1234/auth
 
-Туры http://localhost:1234/tours
+**Туры** http://localhost:1234/tours
 
 <данные для админки:> 
  ```

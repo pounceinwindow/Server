@@ -2,7 +2,7 @@
 __откройте Docker__
 ```docker-compose up --build```
 
-Аутентификация localhost:1234/auth
+Аутентификация http://localhost:1234/auth
 
 Туры http://localhost:1234/tours
 
@@ -11,4 +11,6 @@ __откройте Docker__
  admin@test.com
  ```
  
- ```admin```
+ ```
+ admin
+ ```

@@ -9,11 +9,14 @@ using HttpServer.Services;
 [Endpoint]
 public sealed class AdminEndPoint : BaseEndpoint
 {
-
-
     [HttpGet("/admin")]
     public IResponseResult Index()
     {
+        if (!IsAuth())
+        {
+            return Redirect("/auth");
+        }
+
         try
         {
             var vm = new { Items = new TourService().All() };
@@ -29,7 +32,12 @@ public sealed class AdminEndPoint : BaseEndpoint
     [HttpPost("/admin/tours/create")]
     public void Create()
     {
-
+        if (!IsAuth())
+        {
+            Context.Response.KeepAlive = false;
+            RedirectNow("/auth");
+            return;
+        }
 
         try
         {
@@ -40,9 +48,13 @@ public sealed class AdminEndPoint : BaseEndpoint
             var priceText = form.GetValueOrDefault("price", "0");
             var desc = form.GetValueOrDefault("description", "").Trim();
             var hero = form.GetValueOrDefault("hero_url", "").Trim();
+
             if (decimal.TryParse(priceText, NumberStyles.Any, CultureInfo.InvariantCulture, out var price)
-                && !string.IsNullOrWhiteSpace(title) && !string.IsNullOrWhiteSpace(city))
+                && !string.IsNullOrWhiteSpace(title)
+                && !string.IsNullOrWhiteSpace(city))
+            {
                 new TourService().Create(title, city, cat, price, hero, desc);
+            }
         }
         catch (Exception ex)
         {
@@ -56,6 +68,13 @@ public sealed class AdminEndPoint : BaseEndpoint
     [HttpPost("/admin/tours/delete")]
     public void Delete()
     {
+        if (!IsAuth())
+        {
+            Context.Response.KeepAlive = false;
+            RedirectNow("/auth");
+            return;
+        }
+
         try
         {
             var form = ParseForm(Body());
@@ -70,9 +89,12 @@ public sealed class AdminEndPoint : BaseEndpoint
             }
 
             var svc = new TourService();
-            if (!string.IsNullOrEmpty(slug)) svc.DeleteBySlug(slug);
-            else if (int.TryParse(idStr, out var id) && id > 0) svc.Delete(id);
-            else Console.WriteLine("[ADMIN] Delete: no slug/id");
+            if (!string.IsNullOrEmpty(slug))
+                svc.DeleteBySlug(slug);
+            else if (int.TryParse(idStr, out var id) && id > 0)
+                svc.Delete(id);
+            else
+                Console.WriteLine("[ADMIN] Delete: no slug/id");
         }
         catch (Exception ex)
         {
@@ -86,8 +108,32 @@ public sealed class AdminEndPoint : BaseEndpoint
     [HttpGet("/admin/logout")]
     public void Logout()
     {
+        var c = new Cookie("auth", "")
+        {
+            Path = "/",
+        };
+        Context.Response.Cookies.Add(c);
+
         RedirectNow("/auth");
     }
+
+
+    private bool IsAuth()
+    {
+        try
+        {
+            var cookies = Context?.Request?.Cookies;
+            if (cookies == null) return false;
+
+            var authCookie = cookies["auth"];
+            return authCookie != null && authCookie.Value == "1";
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
 
     private string Body()
     {
@@ -99,6 +145,7 @@ public sealed class AdminEndPoint : BaseEndpoint
     {
         var d = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
         if (string.IsNullOrEmpty(body)) return d;
+
         foreach (var pair in body.Split('&', StringSplitOptions.RemoveEmptyEntries))
         {
             var kv = pair.Split('=', 2);

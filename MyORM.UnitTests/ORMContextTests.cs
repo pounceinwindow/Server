@@ -35,25 +35,25 @@ TRUNCATE {Table};";
     {
         var orm = new OrmContext(_conn);
 
-        var created = orm.Create(new UserModel { Name = "Alice", Email = "a@b.com" }, Table);
+        var created = orm.Create(new UserModel { Email = "Alice", Password = "a@b.com" }, Table);
         Assert.IsTrue(created.Id > 0);
 
         var byId = orm.ReadById<UserModel>(created.Id, Table);
         Assert.IsNotNull(byId);
         Assert.AreEqual("a@b.com", byId.Email);
 
-        orm.Update(created.Id, new UserModel { Id = created.Id, Name = "Alice2", Email = "a2@b.com" }, Table);
+        orm.Update(created.Id, new UserModel { Id = created.Id, Password = "Alice2", Email = "a2@b.com" }, Table);
 
         var afterUpd = orm.ReadById<UserModel>(created.Id, Table);
         Assert.IsNotNull(afterUpd);
-        Assert.AreEqual("Alice2", afterUpd.Name);
+        Assert.AreEqual("Alice2", afterUpd.Password);
         Assert.AreEqual("a2@b.com", afterUpd.Email);
 
         var viaWhere = orm.Where<UserModel>(u => u.Email == "a2@b.com", Table).ToList();
         Assert.AreEqual(1, viaWhere.Count);
         Assert.AreEqual(created.Id, viaWhere[0].Id);
 
-        var viaFirst = orm.FirstOrDefault<UserModel>(u => u.Name == "Alice2", Table);
+        var viaFirst = orm.FirstOrDefault<UserModel>(u => u.Password == "Alice2", Table);
         Assert.IsNotNull(viaFirst);
         Assert.AreEqual(created.Id, viaFirst.Id);
 

@@ -1,7 +1,9 @@
 ﻿using System.Net;
 using System.Text;
 using HttpServer.Framework.core.Attributes;
+using HttpServer.Framework.Settings;
 using HttpServer.Services;
+using MyORM;
 
 namespace HttpServer.Endpoints;
 
@@ -18,6 +20,7 @@ internal sealed class AuthEndPoints
     public Task Login(HttpListenerContext ctx)
     {
         return HandleLogin(ctx);
+        
     }
 
     [HttpPost("/auth/sendEmail")]
@@ -26,21 +29,30 @@ internal sealed class AuthEndPoints
         return HandleLogin(ctx);
     }
 
-    private static async Task HandleLogin(HttpListenerContext ctx)
+   private static async Task HandleLogin(HttpListenerContext ctx)
+{
+    var form = await ReadForm(ctx.Request);
+    var email = form.TryGetValue("email", out var e) ? e.Trim() : "";
+    var password = form.TryGetValue("password", out var p) ? p.Trim() : "";
+
+    if (string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(password))
     {
-        var form = await ReadForm(ctx.Request);
-        var email = form.TryGetValue("email", out var e) ? e.Trim() : "";
-        var password = form.TryGetValue("password", out var p) ? p.Trim() : "";
+        await Write(ctx, "email and password are required", 400);
+        return;
+    }
 
-        if (!AuthService.Validate(email, password))
-        {
-            await Write(ctx, "email and password are required", 400);
-            return;
-        }
+    var cs = SettingsManager.Instance.Settings.ConnectionString!;
+    using var db = new OrmContext(cs);
 
+    var isAdmin = email.Equals("admin@test.com", StringComparison.OrdinalIgnoreCase)
+                  && password == "admin";
+
+    if (isAdmin)
+    {
         try
         {
-            await EmailService.SendAsync(email, "Login", $"User: {WebUtility.HtmlEncode(email)}");
+            await EmailService.SendAsync(email, "Admin login",
+                $"Админ {WebUtility.HtmlEncode(email)} вошёл в систему");
         }
         catch
         {
@@ -54,7 +66,50 @@ internal sealed class AuthEndPoints
         ctx.Response.StatusCode = 302;
         ctx.Response.RedirectLocation = "/admin";
         ctx.Response.OutputStream.Close();
+        return;
     }
+
+    var user = db.FirstOrDefault<UserModel>(u => u.Email == email, "users");
+    var isNewUser = false;
+
+    if (user == null)
+    {
+        user = new UserModel
+        {
+            Email = email,
+            Password = password
+        };
+
+        db.Create(user, "users");
+        isNewUser = true;
+    }
+    else
+    {
+        if (user.Password != password)
+        {
+            await Write(ctx, "invalid password", 400);
+            return;
+        }
+    }
+
+    try
+    {
+        var subject = isNewUser ? "Registration" : "Login";
+        var body = isNewUser
+            ? $"Новый пользователь: {WebUtility.HtmlEncode(email)}<br> {WebUtility.HtmlEncode(password)}"
+            : $"Пользователь вошёл: {WebUtility.HtmlEncode(email)}";
+
+        await EmailService.SendAsync(email, subject, body);
+    }
+    catch
+    {
+        ctx.Response.RedirectLocation = "/tours";
+    }
+
+    ctx.Response.StatusCode = 302;
+    ctx.Response.RedirectLocation = "/tours";
+    ctx.Response.OutputStream.Close();
+}
 
     private static async Task<Dictionary<string, string>> ReadForm(HttpListenerRequest req)
     {

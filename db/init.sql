@@ -16,7 +16,16 @@
     private_tour            BOOLEAN DEFAULT FALSE,
     meal_included           BOOLEAN DEFAULT FALSE
     );
+CREATE TABLE IF NOT EXISTS users (
+                                     id SERIAL PRIMARY KEY,
+                                     email TEXT NOT NULL UNIQUE,
+                                     password TEXT NOT NULL
+);
 
+
+INSERT INTO users (email, password)
+VALUES ('admin@test.com', 'admin')
+    ON CONFLICT (email) DO NOTHING;
 
 CREATE TABLE IF NOT EXISTS experience_details (
                                                   id               SERIAL PRIMARY KEY,
@@ -325,4 +334,6 @@ SET
 INSERT INTO reviews (experience_id, author, comment, rating, created_at) VALUES
                                                                              ((SELECT id FROM experiences WHERE slug = 'entrance-ticket-to-chambord-castle'),'Anna','Great castle, skip‑the‑line really saved time.',5, NOW() - INTERVAL '5 days'),
                                                                              ((SELECT id FROM experiences WHERE slug = 'loire-valley-day-from-tours-with-azay-le-rideau-villandry'),'Maria','Perfect day trip, guide was amazing.',5, NOW() - INTERVAL '8 days'),
-                                                                             ((SELECT id FROM experiences WHERE slug = 'e-bike-tour-to-chambord-from-villesavin'),'John','E‑bikes were fun and easy to use.',5, NOW() - INTERVAL '3 days');
+                                                                             ((SELECT id FROM experiences WHERE slug = 'e-bike-tour-to-chambord-from-villesavin'),'John','It was fire!!!!!!!.',5, NOW() - INTERVAL '5 days');
+                                                                             ((SELECT id FROM experiences WHERE slug = 'loire-valley-day-from-tours-with-azay-le-rideau-villandry'),'Maria','Боже дайте 3 52 питер',5, NOW() - INTERVAL '8 days'),
+                                                                             ((SELECT id FROM experiences WHERE slug = 'e-bike-tour-to-chambord-from-villesavin'),'John','Оченьььььььь классснооооооо',5, NOW() - INTERVAL '4 days');

@@ -9,15 +9,11 @@ using HttpServer.Services;
 [Endpoint]
 public sealed class AdminEndPoint : BaseEndpoint
 {
-    private bool IsAuth()
-    {
-        return Context.Request.Cookies?["auth"]?.Value == "1";
-    }
+
 
     [HttpGet("/admin")]
     public IResponseResult Index()
     {
-        if (!IsAuth()) return Redirect("/auth");
         try
         {
             var vm = new { Items = new TourService().All() };
@@ -33,11 +29,7 @@ public sealed class AdminEndPoint : BaseEndpoint
     [HttpPost("/admin/tours/create")]
     public void Create()
     {
-        if (!IsAuth())
-        {
-            RedirectNow("/auth");
-            return;
-        }
+
 
         try
         {
@@ -64,12 +56,6 @@ public sealed class AdminEndPoint : BaseEndpoint
     [HttpPost("/admin/tours/delete")]
     public void Delete()
     {
-        if (!IsAuth())
-        {
-            RedirectNow("/auth");
-            return;
-        }
-
         try
         {
             var form = ParseForm(Body());
@@ -100,8 +86,6 @@ public sealed class AdminEndPoint : BaseEndpoint
     [HttpGet("/admin/logout")]
     public void Logout()
     {
-        Context.Response.Cookies.Add(new Cookie("auth", "x") { Expires = DateTime.UtcNow.AddDays(-1), Path = "/" });
-        Context.Response.KeepAlive = false;
         RedirectNow("/auth");
     }
 

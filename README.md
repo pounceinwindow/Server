@@ -6,6 +6,7 @@ __откройте Docker__
 
 Туры: [localhost:1234/tours]
 
+[Contribution guidelines for this project](docs/CONTRIBUTING.md)
 
 <данные для админки:> 
  ```admin@test.com```

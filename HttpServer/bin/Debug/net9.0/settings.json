@@ -1,6 +1,0 @@
-﻿{
-  "StaticDirectoryPath": "static",
-  "Domain": "http://localhost",
-  "Port": "1233",
-  "ConnectionString": "Host=localhost;Port=5432;Database=oris;Username=developer;Password=developer"
-}

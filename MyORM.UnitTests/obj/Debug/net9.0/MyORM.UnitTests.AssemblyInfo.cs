@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MyORM.UnitTests")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+19b570ce97f4efd3c729c8ef99bb49e02efad972")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0b734665548f8b33e834cc7a967b78945f0dc22a")]
 [assembly: System.Reflection.AssemblyProductAttribute("MyORM.UnitTests")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MyORM.UnitTests")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

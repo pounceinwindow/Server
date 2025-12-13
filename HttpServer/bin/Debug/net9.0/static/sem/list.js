@@ -63,7 +63,6 @@
         loadGrid(true);
     });
 
-    // на всякий случай, если форма отправляется по Enter
     form.addEventListener('submit', function (e) {
         e.preventDefault();
         loadGrid(true);

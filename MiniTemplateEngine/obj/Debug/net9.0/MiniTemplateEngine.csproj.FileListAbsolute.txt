@@ -277,3 +277,16 @@ C:\Users\pounce\Downloads\HttpServer\MiniTemplateEngine\obj\Debug\net9.0\MiniTem
 C:\Users\pounce\Downloads\HttpServer\MiniTemplateEngine\obj\Debug\net9.0\refint\MiniTemplateEngine.dll
 C:\Users\pounce\Downloads\HttpServer\MiniTemplateEngine\obj\Debug\net9.0\MiniTemplateEngine.pdb
 C:\Users\pounce\Downloads\HttpServer\MiniTemplateEngine\obj\Debug\net9.0\ref\MiniTemplateEngine.dll
+C:\Users\pounce\Downloads\Server\MiniTemplateEngine\bin\Debug\net9.0\Abstraction\IHtmlTemplateRenderer.cs
+C:\Users\pounce\Downloads\Server\MiniTemplateEngine\bin\Debug\net9.0\MiniTemplateEngine.deps.json
+C:\Users\pounce\Downloads\Server\MiniTemplateEngine\bin\Debug\net9.0\MiniTemplateEngine.dll
+C:\Users\pounce\Downloads\Server\MiniTemplateEngine\bin\Debug\net9.0\MiniTemplateEngine.pdb
+C:\Users\pounce\Downloads\Server\MiniTemplateEngine\obj\Debug\net9.0\MiniTemplateEngine.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\pounce\Downloads\Server\MiniTemplateEngine\obj\Debug\net9.0\MiniTemplateEngine.AssemblyInfoInputs.cache
+C:\Users\pounce\Downloads\Server\MiniTemplateEngine\obj\Debug\net9.0\MiniTemplateEngine.AssemblyInfo.cs
+C:\Users\pounce\Downloads\Server\MiniTemplateEngine\obj\Debug\net9.0\MiniTemplateEngine.csproj.CoreCompileInputs.cache
+C:\Users\pounce\Downloads\Server\MiniTemplateEngine\obj\Debug\net9.0\MiniTemplateEngine.sourcelink.json
+C:\Users\pounce\Downloads\Server\MiniTemplateEngine\obj\Debug\net9.0\MiniTemplateEngine.dll
+C:\Users\pounce\Downloads\Server\MiniTemplateEngine\obj\Debug\net9.0\refint\MiniTemplateEngine.dll
+C:\Users\pounce\Downloads\Server\MiniTemplateEngine\obj\Debug\net9.0\MiniTemplateEngine.pdb
+C:\Users\pounce\Downloads\Server\MiniTemplateEngine\obj\Debug\net9.0\ref\MiniTemplateEngine.dll

@@ -914,9 +914,7 @@ button, input, select {
     }
 }
 
-/* Добавить в конец styles.css */
 
-/* Active tab state */
 .tab.active {
     background: var(--accent);
     color: #fff;
@@ -931,7 +929,6 @@ button, input, select {
     background: var(--accent);
 }
 
-/* Cursor pointer for tabs */
 .tab {
     cursor: pointer;
     transition: all 0.2s ease;

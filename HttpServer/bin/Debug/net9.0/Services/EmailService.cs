@@ -1,5 +1,4 @@
-﻿// HttpServer.Services/EmailService.cs
-
+﻿
 using System.Net;
 using System.Net.Mail;
 
@@ -13,7 +12,7 @@ public static class EmailService
         using var message = new MailMessage(
             new MailAddress(cfg.FromAddr, cfg.FromName),
             new MailAddress(to))
-        {
+        {   
             Subject = subject,
             Body = htmlBody,
             IsBodyHtml = true

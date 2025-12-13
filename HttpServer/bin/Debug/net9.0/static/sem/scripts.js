@@ -18,7 +18,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 });
 
 
-// сворачивание секций фильтров
 function initFilterSections() {
     document.querySelectorAll('.aside .fg .fh').forEach(h => {
         h.addEventListener('click', () => {
@@ -27,7 +26,6 @@ function initFilterSections() {
     });
 }
 
-// одиночный range (если где-то используешь)
 function initSinglePriceRange() {
     const r = document.getElementById('priceMax');
     const out = document.getElementById('priceMaxVal');
@@ -51,7 +49,6 @@ function paintRange(input) {
         `linear-gradient(to right,var(--accent) ${pct}%, #e5e7eb ${pct}%)`;
 }
 
-// двухползунковый диапазон цены
 function initPriceSlider() {
     const wrap = document.getElementById('priceFilter');
     if (!wrap) return;

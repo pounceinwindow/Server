@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "ExOgs2Dbs40=",
+  "dgSpecHash": "gItPnA+s+2Q=",
   "success": true,
-  "projectFilePath": "C:\\Users\\pounce\\Downloads\\HttpServer\\HttpServer.Framework\\HttpServer.Framework.csproj",
+  "projectFilePath": "C:\\Users\\pounce\\Downloads\\Server\\HttpServer.Framework\\HttpServer.Framework.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\pounce\\.nuget\\packages\\azure.core\\1.35.0\\azure.core.1.35.0.nupkg.sha512",
     "C:\\Users\\pounce\\.nuget\\packages\\azure.identity\\1.10.3\\azure.identity.1.10.3.nupkg.sha512",

@@ -30,6 +30,9 @@
         <Compile Update="Settings\UserModel.cs">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Compile>
+        <Compile Update="Server\HTTPServer.cs">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Compile>
     </ItemGroup>
 
 </Project>

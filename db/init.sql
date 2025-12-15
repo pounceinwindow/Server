@@ -1,10 +1,10 @@
 ﻿CREATE TABLE IF NOT EXISTS experiences (
-                                           id                      SERIAL PRIMARY KEY,
-                                           slug                    TEXT NOT NULL UNIQUE,
-                                           title                   TEXT NOT NULL,
-                                           city                    TEXT NOT NULL,
-                                           category_name           TEXT NOT NULL,
-                                           price_from              NUMERIC(10,2) NOT NULL,
+                                            id                      SERIAL PRIMARY KEY,
+                                            slug                    TEXT NOT NULL UNIQUE,
+                                            title                   TEXT NOT NULL,
+                                            city                    TEXT NOT NULL,
+                                            category_name           TEXT NOT NULL,
+                                            price_from              NUMERIC(10,2) NOT NULL,
     rating                  NUMERIC(3,2),
     reviews_count           INT,
     hero_url                TEXT DEFAULT '',
@@ -334,6 +334,6 @@ SET
 INSERT INTO reviews (experience_id, author, comment, rating, created_at) VALUES
                                                                              ((SELECT id FROM experiences WHERE slug = 'entrance-ticket-to-chambord-castle'),'Anna','Great castle, skip‑the‑line really saved time.',5, NOW() - INTERVAL '5 days'),
                                                                              ((SELECT id FROM experiences WHERE slug = 'loire-valley-day-from-tours-with-azay-le-rideau-villandry'),'Maria','Perfect day trip, guide was amazing.',5, NOW() - INTERVAL '8 days'),
-                                                                             ((SELECT id FROM experiences WHERE slug = 'e-bike-tour-to-chambord-from-villesavin'),'John','It was fire!!!!!!!.',5, NOW() - INTERVAL '5 days');
-                                                                             ((SELECT id FROM experiences WHERE slug = 'loire-valley-day-from-tours-with-azay-le-rideau-villandry'),'Maria','Боже дайте 3 52 питер',5, NOW() - INTERVAL '8 days'),
+                                                                             ((SELECT id FROM experiences WHERE slug = 'e-bike-tour-to-chambord-from-villesavin'),'John','It was fire!!!!!!!.',5, NOW() - INTERVAL '5 days'),
+                                                                            ((SELECT id FROM experiences WHERE slug = 'loire-valley-day-from-tours-with-azay-le-rideau-villandry'),'Maria','Боже дайте 3 52 питер',5, NOW() - INTERVAL '8 days'),
                                                                              ((SELECT id FROM experiences WHERE slug = 'e-bike-tour-to-chambord-from-villesavin'),'John','Оченьььььььь классснооооооо',5, NOW() - INTERVAL '4 days');

@@ -61,45 +61,54 @@ function initPriceSlider() {
 
     if (!minI || !maxI || !fill || !outMin || !outMax) return;
 
-    const MIN = +minI.min;
-    const MAX = +minI.max;
+    const num = (x) => parseFloat(String(x).replace(',', '.'));
+
+    const MIN = num(minI.min);
+    const MAX = num(minI.max);
     const GAP = 1;
 
     function clamp() {
-        if (+maxI.value - +minI.value < GAP) {
+        const a = num(minI.value);
+        const b = num(maxI.value);
+        if (isNaN(a) || isNaN(b)) return;
+
+        if (b - a < GAP) {
             if (document.activeElement === minI) {
-                minI.value = +maxI.value - GAP;
+                minI.value = String(b - GAP);
             } else {
-                maxI.value = +minI.value + GAP;
+                maxI.value = String(a + GAP);
             }
         }
     }
 
     function paint() {
-        const a = (+minI.value - MIN) / (MAX - MIN) * 100;
-        const b = (+maxI.value - MIN) / (MAX - MIN) * 100;
+        const aV = num(minI.value);
+        const bV = num(maxI.value);
+
+        if (isNaN(MIN) || isNaN(MAX) || isNaN(aV) || isNaN(bV) || (MAX - MIN) <= 0) {
+            outMin.textContent = '$' + (minI.value ?? '');
+            outMax.textContent = '$' + (maxI.value ?? '');
+            return;
+        }
+
+        const a = ((aV - MIN) * 100) / (MAX - MIN);
+        const b = ((bV - MIN) * 100) / (MAX - MIN);
+
         fill.style.left = a + '%';
         fill.style.width = (b - a) + '%';
 
-        outMin.textContent = '$' + (+minI.value).toLocaleString();
-        outMax.textContent = '$' + (+maxI.value).toLocaleString();
+        outMin.textContent = '$' + Math.round(aV).toLocaleString();
+        outMax.textContent = '$' + Math.round(bV).toLocaleString();
 
-        minI.style.zIndex =
-            (parseInt(minI.value, 10) > MAX - 50) ? 5 : 3;
+        minI.style.zIndex = (aV > MAX - 50) ? 5 : 3;
     }
 
     ['input', 'change'].forEach(ev => {
-        minI.addEventListener(ev, () => {
-            clamp();
-            paint();
-        });
-        maxI.addEventListener(ev, () => {
-            clamp();
-            paint();
-        });
+        minI.addEventListener(ev, () => { clamp(); paint(); });
+        maxI.addEventListener(ev, () => { clamp(); paint(); });
     });
 
     paint();
-
-
 }
+
+

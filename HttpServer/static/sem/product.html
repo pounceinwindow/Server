@@ -15,7 +15,11 @@
 <div class="hero">
     <div class="hero-frame">
         $if(root.Details.HeroUrl)
-        <img alt="${root.Details.Title}" src="${root.Details.HeroUrl}">
+        <img alt="${root.Details.Title}"
+             src="${root.Details.HeroUrl}"
+             loading="lazy"
+             decoding="async">
+
         $else
         <img alt="${root.Details.Title}" src="/sem/img/hero-placeholder.jpg">
         $endif
@@ -146,7 +150,6 @@
                 $endif
 
             </section>
-            $endif
 
             $if(root.Details.CancelPolicy)
             <section>
@@ -257,7 +260,11 @@
             <a class="card" href="/product?slug=${m.Slug}">
                 <div class="img-wrap">
                     $if(m.HeroUrl)
-                    <img alt="${m.Title}" src="${m.HeroUrl}">
+                    <img alt="${m.Title}"
+                         src="${m.HeroUrl}"
+                         loading="lazy"
+                         decoding="async">
+
                     $else
                     <img alt="${m.Title}" src="/sem/img/card-placeholder.jpg">
                     $endif

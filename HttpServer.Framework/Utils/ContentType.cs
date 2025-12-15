@@ -21,6 +21,8 @@ public static class ContentType
     {
         var extension = Path.GetExtension(path).ToLower();
 
-        return FileTypes[extension];
+        return FileTypes.TryGetValue(extension, out var ct)
+            ? ct
+            : "application/octet-stream";
     }
 }

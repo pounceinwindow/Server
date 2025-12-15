@@ -1,5 +1,10 @@
-﻿try
+﻿using System.Globalization;
+
+try
 {
+    var cultureInfo = new CultureInfo("en-US");
+    CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
+    CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
     var server = new HttpServer.Framework.Server.HttpServer();
     server.Start();
 

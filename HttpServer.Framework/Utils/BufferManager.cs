@@ -1,51 +1,45 @@
-﻿using System.Text;
-using HttpServer.Framework.Settings;
+﻿using HttpServer.Framework.Settings;
 
 namespace HttpServer.Framework.Utils;
 
-public static class BufferManager // TODO: сделать синглтоном и добавить в контекст
+public static class BufferManager
 {
     public static byte[] GetBytesFromFile(string path)
     {
-        if (Path.HasExtension(path))
-            return File.ReadAllBytes(TryGetFile(path));
-
-        return File.ReadAllBytes(TryGetFile(path + "/index.html"));
+        return GetBytesFromFile(path, out _, out _);
     }
 
-    public static byte[] GetBytesFromJson(string jsonString)
+    public static byte[] GetBytesFromFile(string path, out bool found, out string resolvedPath)
     {
-        return Encoding.UTF8.GetBytes(jsonString);
+        var normalized = path;
+        if (!Path.HasExtension(normalized))
+            normalized = normalized.TrimEnd('/') + "/index.html";
+
+        resolvedPath = ResolveFilePath(normalized, out found);
+        return File.ReadAllBytes(resolvedPath);
     }
 
-    private static string TryGetFile(string path)
+    public static string ResolveFilePath(string path, out bool found)
     {
+        found = false;
         try
         {
             var targetPath = Path.Combine(path.Split("/"));
 
-            if (SettingsManager.Instance.Settings.StaticDirectoryPath != null)
-            {
-                var found = Directory.EnumerateFiles(SettingsManager.Instance.Settings.StaticDirectoryPath,
-                        $"{Path.GetFileName(path)}", SearchOption.AllDirectories)
-                    .FirstOrDefault(f => f.EndsWith(targetPath, StringComparison.OrdinalIgnoreCase));
+            var root = SettingsManager.Instance.Settings.StaticDirectoryPath!;
+            var file = Directory.EnumerateFiles(root, $"{Path.GetFileName(path)}", SearchOption.AllDirectories)
+                .FirstOrDefault(f => f.EndsWith(targetPath, StringComparison.OrdinalIgnoreCase));
 
-                return found ?? throw new FileNotFoundException(path);
+            if (!string.IsNullOrWhiteSpace(file))
+            {
+                found = true;
+                return file;
             }
         }
-        catch (DirectoryNotFoundException)
+        catch
         {
-            Console.WriteLine("Директория не найдена");
-        }
-        catch (FileNotFoundException)
-        {
-            Console.WriteLine("Файл не найден");
-        }
-        catch (Exception)
-        {
-            Console.WriteLine("Ошибка при извлечении текста");
         }
 
-        return Path.Combine(SettingsManager.Instance.Settings.StaticDirectoryPath, "404.html");
+        return Path.Combine(SettingsManager.Instance.Settings.StaticDirectoryPath!, "404.html");
     }
 }

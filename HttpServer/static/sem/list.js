@@ -59,6 +59,7 @@
                 console.error('Error loading grid:', err);
             });
     }
+
     form.addEventListener('change', function () {
         loadGrid(true);
     });

@@ -4,7 +4,6 @@ using MyORM;
 
 namespace HttpServer.Services;
 
-
 public static class AuthService
 {
     private static readonly Regex EmailRegex = new(@"^[^@\s]+@[^@\s]+\.[^@\s]+$", RegexOptions.Compiled);

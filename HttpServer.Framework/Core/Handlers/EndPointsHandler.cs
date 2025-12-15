@@ -115,9 +115,23 @@ internal class EndpointsHandler : Handler
 
             if (result is IResponseResult rr) rr.Execute(context);
         }
-        catch
+        catch (Exception ex)
         {
-            context.Response.StatusCode = 500;
+            try
+            {
+                var resp = context.Response;
+                resp.StatusCode = 500;
+                resp.ContentType = "text/plain; charset=utf-8";
+
+                var bytes = System.Text.Encoding.UTF8.GetBytes("Internal Server Error");
+                resp.ContentLength64 = bytes.Length;
+                resp.OutputStream.Write(bytes, 0, bytes.Length);
+            }
+            finally
+            {
+                try { context.Response.OutputStream.Close(); } catch { }
+                try { context.Response.Close(); } catch { }
+            }
         }
     }
 

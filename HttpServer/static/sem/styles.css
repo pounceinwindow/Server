@@ -328,7 +328,6 @@ button, input, select {
     display: none;
 }
 
-/* Range sliders */
 .range {
     margin-top: 10px;
 }
@@ -367,7 +366,6 @@ button, input, select {
     margin: 0;
     background: transparent;
     pointer-events: none;
-    -webkit-appearance: none;
     appearance: none;
 }
 
@@ -947,3 +945,37 @@ button, input, select {
     outline: none;
     cursor: pointer;
 }
+
+.range input[type=range] {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 8px;
+    border-radius: 999px;
+    background: #e5e7eb;
+    outline: none;
+    cursor: pointer;
+}
+
+.range input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--accent);
+    border: 0;
+    box-shadow: 0 0 0 2px #fff;
+    cursor: pointer;
+}
+
+.range input[type=range]::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    border: 0;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 0 2px #fff;
+    cursor: pointer;
+}
+

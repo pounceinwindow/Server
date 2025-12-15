@@ -105,9 +105,6 @@
         <None Update="settings.json">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
-        <None Update="email.json">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </None>
         <None Update="static\image\cactus.svg">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
